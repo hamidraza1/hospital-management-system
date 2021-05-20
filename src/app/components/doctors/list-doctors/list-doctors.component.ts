@@ -11,21 +11,25 @@ import { Subscription } from 'rxjs';
 export class ListDoctorsComponent implements OnInit, OnDestroy {
   doctors: doctor[] = [];
   private postsSub: Subscription;
-  a;
+  private loading: boolean = false;
 
   constructor(private doctorsService: DoctorsService) {}
 
   ngOnInit() {
-    this.doctors = this.doctorsService.getDoctors();
+    //
+    this.loading = true;
+    this.doctorsService.getDoctors();
     this.postsSub = this.doctorsService
       .getDoctorsUpdateListener()
       .subscribe((doctors: doctor[]) => {
+        //
+        this.loading = false;
         this.doctors = doctors;
-        this.a = doctors;
       });
   }
-  ngAfterViewInit() {
-    console.log(this.a);
+
+  onDeletedoctor(doctorId: string) {
+    this.doctorsService.deletedoctor(doctorId);
   }
 
   ngOnDestroy() {

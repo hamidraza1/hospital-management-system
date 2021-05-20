@@ -1,7 +1,9 @@
 <mat-card>
+  <mat-spinner *ngIf="loading"></mat-spinner>
   <form
-    (ngSubmit)="onAddDoctor(form)"
+    (ngSubmit)="onSaveDoctor(form)"
     #form="ngForm"
+    *ngIf="!loading"
     class="createDoctorsForm-inner"
   >
     <mat-form-field>
@@ -10,7 +12,7 @@
         matInput
         type="text"
         id="name"
-        ngModel
+        [ngModel]="doctor?.name"
         name="name"
         #name="ngModel"
         required
@@ -23,7 +25,7 @@
         matInput
         type="email"
         id="email"
-        ngModel
+        [ngModel]="doctor?.email"
         name="email"
         #email="ngModel"
         required
@@ -36,7 +38,7 @@
         matInput
         type="text"
         id="speciality"
-        ngModel
+        [ngModel]="doctor?.speciality"
         name="speciality"
         #speciality="ngModel"
         required
