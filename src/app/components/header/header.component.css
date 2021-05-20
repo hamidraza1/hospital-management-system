@@ -1,0 +1,19 @@
+.header-container {
+  background-color: blueviolet;
+  padding: 10px 0;
+}
+.header-container ul {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+}
+.header-container ul li {
+  list-style: none;
+}
+.header-container ul li a {
+  text-decoration: none;
+  list-style: none;
+  color: white;
+  margin: 10px;
+  font-size: 18px;
+}

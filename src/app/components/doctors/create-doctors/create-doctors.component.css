@@ -1,0 +1,13 @@
+.createDoctorsForm-inner {
+  display: flex;
+  flex-direction: column;
+}
+/* mat-form-field {
+  margin: 10px 0;
+  padding: 0 10px;
+} */
+
+button {
+  width: 20%;
+  margin: auto;
+}
