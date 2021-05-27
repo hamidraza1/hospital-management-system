@@ -1,3 +1,9 @@
 mat-spinner {
   margin: auto;
 }
+.doctor-image {
+  width: 100%;
+}
+.doctor-image img {
+  width: 100%;
+}

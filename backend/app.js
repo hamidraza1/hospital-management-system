@@ -1,11 +1,12 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 
 //connecting express to database
 const mongoose = require("mongoose");
 mongoose
   .connect(
-    "mongodb+srv://hamid:pOERgvSpS81h9Ec6@cluster0.8mbn1.mongodb.net/HMS-Database?retryWrites=true&w=majority"
+    "mongodb+srv://hamid:pOERgvSpS81h9Ec6@cluster0.8mbn1.mongodb.net/HMS-Database"
   )
   .then(() => {
     console.log("connected to database!");
@@ -16,15 +17,17 @@ mongoose
 
 //To extarct data, which is coming with post request
 const bodyParser = require("body-parser");
-
 app.use(express.json());
+
+//any request targeting 'images' folder will continue,and fetch files from there
+app.use("/images", express.static("backend/images"));
 
 //Middleware => Beacuse of CORS error
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Origin, X-Request-With, Content-Type,Accept"
+    "Origin, X-Request-With, Content-Type,Accept,Authorization"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -34,7 +37,9 @@ app.use((req, res, next) => {
 });
 
 const doctorsRoutes = require("./routes/doctors");
+const adminsRoutes = require("./routes/admins");
 
 app.use("/api/doctors", doctorsRoutes);
+app.use("/api/admin", adminsRoutes);
 
 module.exports = app;

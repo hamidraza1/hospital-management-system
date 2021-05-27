@@ -8,7 +8,7 @@ import { ListDoctorsComponent } from './components/doctors/list-doctors/list-doc
 import { HeaderComponent } from './components/header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -16,6 +16,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/Paginator';
+import { SignupComponent } from './components/auth/signup/signup.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { AuthInterceptor } from './components/auth/auth.interceptor';
+import { AuthGuard } from './components/auth/auth.guard';
+/* import { AuthGuard } from './components/auth/auth.guard'; */
 
 @NgModule({
   declarations: [
@@ -23,6 +29,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CreateDoctorsComponent,
     ListDoctorsComponent,
     HeaderComponent,
+    SignupComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,8 +44,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatExpansionModule,
     MatProgressSpinnerModule,
     HttpClientModule,
+    MatPaginatorModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    AuthGuard,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

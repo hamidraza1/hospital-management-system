@@ -10,30 +10,41 @@ import { Router } from '@angular/router';
 })
 export class DoctorsService {
   private doctors: doctor[] = [];
-  private doctorsUpdated = new Subject<doctor[]>();
+  private doctorsUpdated = new Subject<{
+    doctors: doctor[];
+    doctorCount: number;
+  }>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getDoctors() {
+  getDoctors(postsPerPage: number, currentPage: number) {
+    const queryParams = `?pageSize=${postsPerPage}&currentPage=${currentPage}`;
     this.http
-      .get<{ message: string; doctors: any }>(
-        'http://localhost:3000/api/doctors'
+      .get<{ message: string; doctors: any; maxDoctors: number }>(
+        'http://localhost:3000/api/doctors' + queryParams
       )
       .pipe(
         map((doctorsData) => {
-          return doctorsData.doctors.map((doctor) => {
-            return {
-              id: doctor._id,
-              name: doctor.name,
-              email: doctor.email,
-              speciality: doctor.speciality,
-            };
-          });
+          return {
+            doctors: doctorsData.doctors.map((doctor) => {
+              return {
+                id: doctor._id,
+                name: doctor.name,
+                email: doctor.email,
+                speciality: doctor.speciality,
+                imagePath: doctor.imagePath,
+              };
+            }),
+            maxPosts: doctorsData.maxDoctors,
+          };
         })
       )
-      .subscribe((transformedDoctors) => {
-        this.doctors = transformedDoctors;
-        this.doctorsUpdated.next([...this.doctors]);
+      .subscribe((transformedDoctorsData) => {
+        this.doctors = transformedDoctorsData.doctors;
+        this.doctorsUpdated.next({
+          doctors: [...this.doctors],
+          doctorCount: transformedDoctorsData.maxPosts,
+        });
       });
   }
 
@@ -48,67 +59,68 @@ export class DoctorsService {
       name: string;
       email: string;
       speciality: string;
+      imagePath: string;
     }>('http://localhost:3000/api/doctors/' + doctorId);
   }
 
-  addDoctors(name: string, email: string, speciality: string) {
-    const doctor: doctor = {
-      id: null,
-      name: name,
-      email: email,
-      speciality: speciality,
-    };
+  addDoctors(name: string, email: string, speciality: string, image: File) {
+    //FormData is used to combine json and file data(blob)
+    const doctorData = new FormData();
+    doctorData.append('name', name);
+    doctorData.append('email', email);
+    doctorData.append('speciality', speciality);
+    doctorData.append('image', image, name);
+
     this.http
-      .post<{ message: string; doctorId: string }>(
+      .post<{ message: string; doctor: doctor }>(
         'http://localhost:3000/api/doctors',
-        doctor
+        doctorData
       )
       .subscribe((responseData) => {
-        console.log(responseData.message);
-        //store id in local doctors array
-        const id = responseData.doctorId;
-        doctor.id = id;
-        this.doctors.push(doctor);
-        this.doctorsUpdated.next([...this.doctors]);
         this.router.navigate(['/']);
       });
   }
 
-  updateDoctor(id: string, name: string, email: string, speciality: string) {
-    const doctor: doctor = {
-      id: id,
-      name: name,
-      email: email,
-      speciality: speciality,
-    };
+  updateDoctor(
+    id: string,
+    name: string,
+    email: string,
+    speciality: string,
+    image: File | any
+  ) {
+    let doctorData: doctor | FormData;
+    //if a new image is selected then image type will be file/object
+    //if a image is not updated then image type will be url
+    if (typeof image === 'object') {
+      doctorData = new FormData();
+      doctorData.append('id', id);
+      doctorData.append('name', name);
+      doctorData.append('email', email);
+      doctorData.append('speciality', speciality);
+      doctorData.append('image', image, name);
+    } else {
+      doctorData = {
+        id: id,
+        name: name,
+        email: email,
+        speciality: speciality,
+        imagePath: image,
+      };
+    }
+
     this.http
-      .put<{ message: string }>(
+      .put<{ message: string; result: doctor }>(
         'http://localhost:3000/api/doctors/' + id,
-        doctor
+        doctorData
       )
       .subscribe((response) => {
-        //update locally in doctor array
-        const updatedPosts = [...this.doctors];
-        const oldDoctorIndex = updatedPosts.findIndex(
-          (d) => d.id === doctor.id
-        );
-        updatedPosts[oldDoctorIndex] = doctor;
-        this.doctors = updatedPosts;
-        this.doctorsUpdated.next([...this.doctors]);
         this.router.navigate(['/']);
       });
   }
 
   deletedoctor(doctorId: string) {
-    this.http
-      .delete<{ message: string }>(
-        'http://localhost:3000/api/doctors/' + doctorId
-      )
-      .subscribe((res) => {
-        //updating the locally stored doctors array, once any doc is deleted
-        const updateDoctors = this.doctors.filter((doc) => doc.id !== doctorId);
-        this.doctors = updateDoctors;
-        this.doctorsUpdated.next([...this.doctors]);
-      });
+    return this.http.delete<{ message: string }>(
+      'http://localhost:3000/api/doctors/' + doctorId
+    );
   }
 }

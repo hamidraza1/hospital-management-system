@@ -1,9 +1,14 @@
 <div class="header-container">
   <ul>
     <li><a routerLink="/">Home</a></li>
-    <li>
+    <li *ngIf="userIsAuthenticated">
       <a routerLink="/create-doctors">Create Doctor</a>
     </li>
     <li><a routerLink="/list-doctors">List Doctor</a></li>
+    <li *ngIf="!userIsAuthenticated"><a routerLink="/login">Login</a></li>
+    <li *ngIf="!userIsAuthenticated"><a routerLink="/signup">Signup</a></li>
+    <li *ngIf="userIsAuthenticated" (click)="onLogout()">
+      <button mat-button>Logout</button>
+    </li>
   </ul>
 </div>

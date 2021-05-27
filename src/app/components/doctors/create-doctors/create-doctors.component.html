@@ -19,6 +19,25 @@
       />
       <mat-error *ngIf="name.invalid">Name is required</mat-error>
     </mat-form-field>
+    <div>
+      <button
+        mat-button
+        color="accent"
+        type="button"
+        (click)="filePicker.click($event)"
+      >
+        Pick Image
+      </button>
+      <input
+        type="file"
+        style="visibility: hidden"
+        #filePicker
+        (change)="onFileSelected($event)"
+      />
+    </div>
+    <div class="image-preview" *ngIf="imagepreview !== '' && imagepreview">
+      <img [src]="imagepreview" alt="form.value.title" />
+    </div>
     <mat-form-field>
       <mat-label for="email">Email</mat-label>
       <input

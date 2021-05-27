@@ -11,10 +11,12 @@ import { DoctorsService } from '../doctors.service';
 })
 export class CreateDoctorsComponent implements OnInit {
   doctors: doctor[];
+  selectedFile: File = null;
+  imagepreview: any;
   private mode = 'create';
   private doctorId: string;
   public doctor: doctor;
-  private loading: boolean = false;
+  public loading: boolean = false;
 
   constructor(
     private doctorsService: DoctorsService,
@@ -36,6 +38,7 @@ export class CreateDoctorsComponent implements OnInit {
             name: doctor.name,
             email: doctor.email,
             speciality: doctor.speciality,
+            imagePath: doctor.imagePath,
           };
         });
       } else {
@@ -45,23 +48,37 @@ export class CreateDoctorsComponent implements OnInit {
     });
   }
 
+  onFileSelected(event) {
+    this.selectedFile = <File>event.target.files[0];
+    //to preview image
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagepreview = reader.result;
+    };
+    reader.readAsDataURL(this.selectedFile);
+  }
+
   onSaveDoctor(form: NgForm) {
     if (form.invalid) {
       return;
     }
+
     this.loading = true;
+
     if (this.mode === 'create') {
       this.doctorsService.addDoctors(
         form.value.name,
         form.value.email,
-        form.value.speciality
+        form.value.speciality,
+        this.selectedFile
       );
     } else {
       this.doctorsService.updateDoctor(
         this.doctorId,
         form.value.name,
         form.value.email,
-        form.value.speciality
+        form.value.speciality,
+        this.doctor.imagePath
       );
     }
     form.resetForm();
