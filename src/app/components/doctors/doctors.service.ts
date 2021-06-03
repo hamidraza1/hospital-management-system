@@ -33,6 +33,7 @@ export class DoctorsService {
                 email: doctor.email,
                 speciality: doctor.speciality,
                 imagePath: doctor.imagePath,
+                creator: doctor.creator,
               };
             }),
             maxPosts: doctorsData.maxDoctors,
@@ -60,6 +61,7 @@ export class DoctorsService {
       email: string;
       speciality: string;
       imagePath: string;
+      creator: string;
     }>('http://localhost:3000/api/doctors/' + doctorId);
   }
 
@@ -105,6 +107,7 @@ export class DoctorsService {
         email: email,
         speciality: speciality,
         imagePath: image,
+        creator: null,
       };
     }
 

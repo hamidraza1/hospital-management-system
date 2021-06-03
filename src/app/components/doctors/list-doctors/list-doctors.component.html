@@ -2,16 +2,17 @@
 <mat-accordion multi="true" *ngIf="doctors.length > 0 && !loading">
   <mat-expansion-panel *ngFor="let doctor of doctors">
     <mat-expansion-panel-header>
-      <mat-panel-title> {{ doctor.name }} </mat-panel-title>
-      <mat-panel-description>
+      <mat-panel-title class="doctor-speciality">
         {{ doctor.speciality }}
-      </mat-panel-description>
+      </mat-panel-title>
     </mat-expansion-panel-header>
-    <p>{{ doctor.email }}</p>
+    <div class="under-line"></div>
+    <p class="doctor-name">{{ doctor.name }}</p>
     <div class="doctor-image">
       <img [src]="doctor.imagePath" [alt]="doctor.title" />
     </div>
-    <mat-action-row *ngIf="userIsAuthenticated">
+    <p class="doctor-email">{{ doctor.email }}</p>
+    <mat-action-row *ngIf="adminIsAuthenticated && userId === doctor.creator">
       <a mat-button [routerLink]="['/edit-doctors', doctor.id]" color="primary"
         >Edit</a
       >

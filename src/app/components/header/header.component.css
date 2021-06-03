@@ -1,14 +1,17 @@
 .header-container {
   background-color: blueviolet;
-  padding: 10px 0;
+  height: 70px;
 }
 .header-container ul {
   display: flex;
   flex-direction: row;
-  margin: auto;
+  height: 100%;
 }
 .header-container ul li {
   list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .header-container ul li a {
   text-decoration: none;
@@ -16,4 +19,56 @@
   color: white;
   margin: 10px;
   font-size: 18px;
+}
+.authentication-container {
+  display: flex;
+  flex-direction: row;
+  margin-right: 100px;
+}
+.appointment {
+  margin-left: auto;
+  background-color: rgb(71, 26, 112);
+}
+
+/* Style The Dropdown Button */
+.dropbtn {
+  background-color: blueviolet;
+  color: white;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgb(125, 99, 238);
+  min-width: 140px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 6px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: blueviolet;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
 }

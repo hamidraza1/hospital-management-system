@@ -8,7 +8,7 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  userIsAuthenticated = false;
+  adminIsAuthenticated = false;
   private authListenerSub: Subscription;
 
   constructor(private authService: AuthService) {}
@@ -17,8 +17,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authListenerSub = this.authService
       .getAuthStatusListener()
       .subscribe((isAuthenticated) => {
-        this.userIsAuthenticated = isAuthenticated;
+        this.adminIsAuthenticated = isAuthenticated;
       });
+    this.adminIsAuthenticated = this.authService.getIsAuth();
   }
 
   onLogout() {

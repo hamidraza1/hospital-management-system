@@ -1,14 +1,49 @@
 <div class="header-container">
   <ul>
     <li><a routerLink="/">Home</a></li>
-    <li *ngIf="userIsAuthenticated">
-      <a routerLink="/create-doctors">Create Doctor</a>
+    <li>
+      <div class="dropdown">
+        <button class="dropbtn">Doctors</button>
+        <div class="dropdown-content">
+          <a *ngIf="adminIsAuthenticated" routerLink="/create-doctors"
+            >Create Doctors</a
+          >
+          <a routerLink="/list-doctors">List Doctor</a>
+        </div>
+      </div>
     </li>
-    <li><a routerLink="/list-doctors">List Doctor</a></li>
-    <li *ngIf="!userIsAuthenticated"><a routerLink="/login">Login</a></li>
-    <li *ngIf="!userIsAuthenticated"><a routerLink="/signup">Signup</a></li>
-    <li *ngIf="userIsAuthenticated" (click)="onLogout()">
-      <button mat-button>Logout</button>
+    <li *ngIf="adminIsAuthenticated">
+      <div class="dropdown">
+        <button class="dropbtn">Patients</button>
+        <div class="dropdown-content">
+          <a routerLink="/create-patients">Create Patients</a>
+          <a routerLink="/list-patients">List Patients</a>
+        </div>
+      </div>
     </li>
+    <li class="appointment">
+      <a routerLink="/book-appointments">Appointment</a>
+    </li>
+    <li class="authentication-container">
+      <div class="dropdown">
+        <button class="dropbtn">Admin</button>
+        <div class="dropdown-content">
+          <a *ngIf="!adminIsAuthenticated" routerLink="/login">Login</a>
+          <a *ngIf="!adminIsAuthenticated" routerLink="/signup">Signup</a>
+          <a *ngIf="adminIsAuthenticated" (click)="onLogout()">Logout</a>
+        </div>
+      </div>
+    </li>
+    <!-- <li class="authentication-container">
+      <div *ngIf="!userIsAuthenticated">
+        <a routerLink="/login">Admin-Login</a>
+      </div>
+      <div *ngIf="!userIsAuthenticated">
+        <a routerLink="/signup">Admin-Signup</a>
+      </div>
+      <div *ngIf="userIsAuthenticated" (click)="onLogout()">
+        <a>Logout</a>
+      </div>
+    </li> -->
   </ul>
 </div>

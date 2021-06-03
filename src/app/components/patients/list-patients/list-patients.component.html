@@ -1,0 +1,28 @@
+<mat-accordion multi="true" *ngIf="patients.length > 0">
+  <mat-expansion-panel *ngFor="let patient of patients">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="doctor-speciality">
+        {{ patient.name }}
+      </mat-panel-title>
+      <mat-panel-description>{{ patient.category }}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="under-line"></div>
+    <p class="doctor-name">{{ patient.phone }}</p>
+    <p class="doctor-email">{{ patient.email }}</p>
+    <p class="doctor-email">{{ patient.profession }}</p>
+    <p class="doctor-email">{{ patient.date }}</p>
+    <p class="doctor-email">{{ patient.time }}</p>
+    <p class="doctor-email">{{ patient.description }}</p>
+    <mat-action-row>
+      <a
+        mat-button
+        [routerLink]="['/edit-patients', patient._id]"
+        color="primary"
+        >Edit</a
+      >
+      <button mat-button color="warn" (click)="onDeletePatient(patient.id)">
+        Delete
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>

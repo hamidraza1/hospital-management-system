@@ -1,0 +1,105 @@
+<mat-card>
+  <form
+    (ngSubmit)="onAddPatient(form)"
+    #form="ngForm"
+    class="bookAppointmentForm-inner"
+  >
+    <span>
+      <mat-form-field>
+        <input
+          matInput
+          type="text"
+          name="name"
+          placeholder="name"
+          [ngModel]="patient?.name"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          type="email"
+          name="email"
+          placeholder="email"
+          [ngModel]="patient?.email"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          type="text"
+          name="phone"
+          placeholder="Phone Number"
+          [ngModel]="patient?.phone"
+          required
+        />
+      </mat-form-field>
+    </span>
+    <span>
+      <mat-form-field>
+        <input
+          matInput
+          type="text"
+          name="category"
+          placeholder="Category"
+          [ngModel]="patient?.category"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          type="text"
+          name="profession"
+          placeholder="Profession"
+          [ngModel]="patient?.profession"
+          required
+        />
+      </mat-form-field>
+      <!--------------------- Date Picker ------------------------------->
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [matDatepickerFilter]="dateFilter"
+          [min]="minDate"
+          name="date"
+          [ngModel]="patient?.date"
+          required
+          (dateChange)="onDatePicked($event)"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <!--------------------- Time Picker ------------------------------->
+      <mat-form-field>
+        <input
+          matInput
+          #pickerInput
+          type="text"
+          placeholder="Choose time"
+          name="time"
+          [ngModel]="patient ? patient.time : time"
+          [disabled]="!isTimePickerDisabled"
+          required
+        />
+      </mat-form-field>
+    </span>
+    <span class="description">
+      <mat-form-field>
+        <input
+          matInput
+          type="text"
+          name="description"
+          placeholder="Description"
+          [ngModel]="patient?.description"
+          required
+        />
+      </mat-form-field>
+    </span>
+
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
+</mat-card>

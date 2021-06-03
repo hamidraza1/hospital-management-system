@@ -17,10 +17,21 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/Paginator';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule,
+} from '@angular-material-components/datetime-picker';
+
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { AuthInterceptor } from './components/auth/auth.interceptor';
 import { AuthGuard } from './components/auth/auth.guard';
+import { CreatePatientsComponent } from './components/patients/create-patients/create-patients.component';
+import { ListPatientsComponent } from './components/patients/list-patients/list-patients.component';
+import { BookAppointmentsComponent } from './components/patients/book-appointments/book-appointments.component';
+import { MatNativeDateModule } from '@angular/material/core';
 /* import { AuthGuard } from './components/auth/auth.guard'; */
 
 @NgModule({
@@ -31,6 +42,9 @@ import { AuthGuard } from './components/auth/auth.guard';
     HeaderComponent,
     SignupComponent,
     LoginComponent,
+    CreatePatientsComponent,
+    ListPatientsComponent,
+    BookAppointmentsComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +59,11 @@ import { AuthGuard } from './components/auth/auth.guard';
     MatProgressSpinnerModule,
     HttpClientModule,
     MatPaginatorModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

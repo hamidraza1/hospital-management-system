@@ -9,10 +9,11 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  private token: string;
+  public token: string;
   public isAuthenticated = false;
-  tokenTimer: any;
+  /* tokenTimer: any; */
   private authStatusListener = new Subject<boolean>();
+  private userId: string;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -22,6 +23,10 @@ export class AuthService {
 
   getIsAuth() {
     return this.isAuthenticated;
+  }
+
+  getUserId() {
+    return this.userId;
   }
 
   createAdmin(email: string, password: string) {
@@ -36,7 +41,7 @@ export class AuthService {
   loginAdmin(email: string, password: string) {
     const authData: AuthData = { email: email, password: password };
     this.http
-      .post<{ token: string; expiresIn: number }>(
+      .post<{ token: string; expiresIn: number; userId: string }>(
         'http://localhost:3000/api/admin/login',
         authData
       )
@@ -48,11 +53,13 @@ export class AuthService {
         if (token) {
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
-
-          const expiresInDuration = response.expiresIn;
+          this.userId = response.userId;
+          this.saveAuthData(token, this.userId);
+          /* const expiresInDuration = response.expiresIn;
           this.tokenTimer = setTimeout(() => {
             this.logout();
-          }, expiresInDuration * 1000);
+          }, expiresInDuration * 1000); */
+
           this.router.navigate(['/list-doctors']);
         }
       });
@@ -67,7 +74,30 @@ export class AuthService {
     this.token = null;
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
-    clearTimeout(this.tokenTimer);
+    this.clearAuthData();
+    this.userId = null;
+    /* clearTimeout(this.tokenTimer); */
     this.router.navigate(['/']);
+  }
+
+  private saveAuthData(token: string, userId: string) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('userId', userId);
+  }
+
+  private clearAuthData() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+  }
+
+  autoAuthAdmin() {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+    if (token) {
+      this.authStatusListener.next(true);
+      this.isAuthenticated = true;
+      this.userId = userId;
+      this.token = token;
+    }
   }
 }

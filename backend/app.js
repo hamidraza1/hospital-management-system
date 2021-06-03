@@ -38,8 +38,10 @@ app.use((req, res, next) => {
 
 const doctorsRoutes = require("./routes/doctors");
 const adminsRoutes = require("./routes/admins");
+const patientsRoutes = require("./routes/patients");
 
 app.use("/api/doctors", doctorsRoutes);
 app.use("/api/admin", adminsRoutes);
+app.use("/api/patients", patientsRoutes);
 
 module.exports = app;

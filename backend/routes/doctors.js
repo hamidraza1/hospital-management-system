@@ -38,6 +38,8 @@ router.post(
       email: req.body.email,
       speciality: req.body.speciality,
       imagePath: url + "/images/" + req.file.filename,
+      //we will fetch the Admin Id from the inferred token,bcs adminId was inferred while generating the token
+      creator: req.adminData.adminId,
     });
     doctor.save().then((createdDoctor) => {
       res.status(201).json({
@@ -67,11 +69,20 @@ router.put(
       email: req.body.email,
       speciality: req.body.speciality,
       imagePath: imagePath,
+      creator: req.adminData.adminId,
     });
-    Doctor.updateOne({ _id: req.params.id }, doctor).then((result) => {
-      res
-        .status(200)
-        .json({ message: "doctor updated successfully", result: result });
+    //creator:rew.adminData.adminId => we will verify, only that admin will be able to edit the doctor who created it
+    Doctor.updateOne(
+      { _id: req.params.id, creator: req.adminData.adminId },
+      doctor
+    ).then((result) => {
+      if (result.n > 0) {
+        res
+          .status(200)
+          .json({ message: "doctor updated successfully", result: result });
+      } else {
+        res.status(401).json({ message: "Auth5 failed" });
+      }
     });
   }
 );
@@ -109,11 +120,17 @@ router.get("/:id", (req, res, next) => {
 });
 
 router.delete("/:id", checkAuth, (req, res, next) => {
-  console.log(req.params);
-  Doctor.deleteOne({ _id: req.params.id }).then((result) => {
-    console.log(result);
-    res.status(200).json({ message: "doctor deleted successfully" });
-  });
+  //creator:rew.adminData.adminId => we will verify, only that admin will be able to edit the doctor who created it
+  Doctor.deleteOne({ _id: req.params.id, creator: req.adminData.adminId }).then(
+    (result) => {
+      res.status(200).json({ message: "doctor deleted successfully" });
+      if (result.nModified > 0) {
+        res.status(200).json({ message: "doctor deleted successfully" });
+      } else {
+        res.status(401).json({ message: "Auth6 failed" });
+      }
+    }
+  );
 });
 
 module.exports = router;

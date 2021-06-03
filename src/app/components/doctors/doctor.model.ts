@@ -4,4 +4,5 @@ export interface doctor {
   email: string;
   speciality: string;
   imagePath: string;
+  creator: string;
 }

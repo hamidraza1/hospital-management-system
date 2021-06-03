@@ -3,7 +3,33 @@ mat-spinner {
 }
 .doctor-image {
   width: 100%;
+  margin: 3em auto;
 }
 .doctor-image img {
-  width: 100%;
+  display: block;
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+  margin: auto;
+}
+.under-line {
+  border-bottom: 0.5px solid rgb(70, 168, 158);
+  width: 50%;
+  margin: 10px auto;
+}
+.doctor-speciality {
+  color: rgb(3, 125, 113);
+}
+.doctor-name {
+  margin: atuo;
+  font-weight: 600;
+  font-size: 22px;
+  text-align: center;
+}
+.doctor-email {
+  font-size: 12px;
+  color: rgb(72, 72, 72);
+  text-decoration: underline;
+  text-underline-position: under;
+  text-align: right;
 }

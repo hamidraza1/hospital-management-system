@@ -15,14 +15,15 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
 
   //for pagination
   totalDoctors = 0;
-  doctorsPerPage = 1;
+  doctorsPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
 
+  userId: string;
   private postsSub: Subscription;
   private authStatusSub: Subscription;
   public loading: boolean = false;
-  public userIsAuthenticated = false;
+  public adminIsAuthenticated = false;
 
   constructor(
     private doctorsService: DoctorsService,
@@ -33,6 +34,7 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
     //
     this.loading = true;
     this.doctorsService.getDoctors(this.doctorsPerPage, this.currentPage);
+    this.userId = this.authService.getUserId();
     this.postsSub = this.doctorsService
       .getDoctorsUpdateListener()
       .subscribe((doctorsData: { doctors: doctor[]; doctorCount: number }) => {
@@ -41,11 +43,12 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
         this.totalDoctors = doctorsData.doctorCount;
         this.doctors = doctorsData.doctors;
       });
-    this.userIsAuthenticated = this.authService.isAuthenticated;
+    this.adminIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService
       .getAuthStatusListener()
       .subscribe((isAuthenticated) => {
-        this.userIsAuthenticated = isAuthenticated;
+        this.adminIsAuthenticated = isAuthenticated;
+        this.userId = this.authService.getUserId();
       });
   }
 

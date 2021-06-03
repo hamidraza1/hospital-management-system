@@ -39,6 +39,7 @@ export class CreateDoctorsComponent implements OnInit {
             email: doctor.email,
             speciality: doctor.speciality,
             imagePath: doctor.imagePath,
+            creator: doctor.creator,
           };
         });
       } else {
