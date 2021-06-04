@@ -55,11 +55,6 @@ export class AuthService {
           this.authStatusListener.next(true);
           this.userId = response.userId;
           this.saveAuthData(token, this.userId);
-          /* const expiresInDuration = response.expiresIn;
-          this.tokenTimer = setTimeout(() => {
-            this.logout();
-          }, expiresInDuration * 1000); */
-
           this.router.navigate(['/list-doctors']);
         }
       });

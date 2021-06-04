@@ -26,11 +26,21 @@
     </li>
     <li class="authentication-container">
       <div class="dropdown">
-        <button class="dropbtn">Admin</button>
+        <button class="dropbtn">As-Admin</button>
         <div class="dropdown-content">
           <a *ngIf="!adminIsAuthenticated" routerLink="/login">Login</a>
           <a *ngIf="!adminIsAuthenticated" routerLink="/signup">Signup</a>
           <a *ngIf="adminIsAuthenticated" (click)="onLogout()">Logout</a>
+        </div>
+      </div>
+    </li>
+    <li class="authentication-container">
+      <div class="dropdown">
+        <button class="dropbtn">As-Doctor</button>
+        <div class="dropdown-content">
+          <a routerLink="/doctor/login">Login</a>
+          <a routerLink="/doctor/signup">Signup</a>
+          <a>Logout</a>
         </div>
       </div>
     </li>

@@ -32,6 +32,9 @@ import { CreatePatientsComponent } from './components/patients/create-patients/c
 import { ListPatientsComponent } from './components/patients/list-patients/list-patients.component';
 import { BookAppointmentsComponent } from './components/patients/book-appointments/book-appointments.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { DoctorsLoginComponent } from './components/auth-doctors/doctors-login/doctors-login.component';
+import { DoctorsSignupComponent } from './components/auth-doctors/doctors-signup/doctors-signup.component';
+import { DoctorAuthInterceptor } from './components/auth-doctors/doctors-auth.interceptor';
 /* import { AuthGuard } from './components/auth/auth.guard'; */
 
 @NgModule({
@@ -45,6 +48,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     CreatePatientsComponent,
     ListPatientsComponent,
     BookAppointmentsComponent,
+    DoctorsLoginComponent,
+    DoctorsSignupComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +73,11 @@ import { MatNativeDateModule } from '@angular/material/core';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: DoctorAuthInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

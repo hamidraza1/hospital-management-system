@@ -123,8 +123,8 @@ router.delete("/:id", checkAuth, (req, res, next) => {
   //creator:rew.adminData.adminId => we will verify, only that admin will be able to edit the doctor who created it
   Doctor.deleteOne({ _id: req.params.id, creator: req.adminData.adminId }).then(
     (result) => {
-      res.status(200).json({ message: "doctor deleted successfully" });
-      if (result.nModified > 0) {
+      /*       res.status(200).json({ message: "doctor deleted successfully" }); */
+      if (result.n > 0) {
         res.status(200).json({ message: "doctor deleted successfully" });
       } else {
         res.status(401).json({ message: "Auth6 failed" });

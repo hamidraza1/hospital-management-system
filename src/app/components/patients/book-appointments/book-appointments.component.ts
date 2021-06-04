@@ -33,6 +33,7 @@ export class BookAppointmentsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    /*---------------- Create OR Edit Mode --------------------- */
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('patientId')) {
         this.mode = 'edit';
@@ -94,9 +95,8 @@ export class BookAppointmentsComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    console.log(form.value);
+    const Date = form.value.date.toLocaleDateString();
     if (this.mode === 'create') {
-      const Date = form.value.date.toLocaleDateString();
       this.patientsService.addPatients(
         form.value.name,
         form.value.email,
@@ -107,8 +107,20 @@ export class BookAppointmentsComponent implements OnInit {
         form.value.time,
         form.value.description
       );
-      form.resetForm();
+    } else {
+      this.patientsService.upDatePatient(
+        this.patientId,
+        form.value.name,
+        form.value.email,
+        form.value.phone,
+        form.value.category,
+        form.value.profession,
+        Date,
+        form.value.time,
+        form.value.description
+      );
     }
+    form.resetForm();
   }
 
   ngOnDestroy() {

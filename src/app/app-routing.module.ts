@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { DoctorsLoginComponent } from './components/auth-doctors/doctors-login/doctors-login.component';
+import { DoctorsSignupComponent } from './components/auth-doctors/doctors-signup/doctors-signup.component';
 import { AuthGuard } from './components/auth/auth.guard';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
@@ -45,6 +47,8 @@ const routes: Routes = [
   },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
+  { path: 'doctor/login', component: DoctorsLoginComponent },
+  { path: 'doctor/signup', component: DoctorsSignupComponent },
 ];
 
 @NgModule({

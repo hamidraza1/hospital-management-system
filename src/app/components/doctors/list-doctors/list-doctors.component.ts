@@ -15,9 +15,9 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
 
   //for pagination
   totalDoctors = 0;
-  doctorsPerPage = 5;
+  doctorsPerPage = 2;
   currentPage = 1;
-  pageSizeOptions = [1, 2, 5, 10];
+  pageSizeOptions = [2, 5, 10];
 
   userId: string;
   private postsSub: Subscription;

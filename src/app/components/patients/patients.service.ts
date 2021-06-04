@@ -8,7 +8,10 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class PatientsService {
-  patients = new Subject<[]>();
+  private patientsUpdated = new Subject<{
+    patients: any;
+    patientsCount: number;
+  }>();
   unAvailableTimeSlots = new Subject<[]>();
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -69,17 +72,66 @@ export class PatientsService {
       });
   }
 
-  getPatients() {
+  getPatients(patientsPerPage: number, currentPage: number) {
+    const queryParams = `?pageSize=${patientsPerPage}&currentPage=${currentPage}`;
     this.http
-      .get<{ patients: any }>('http://localhost:3000/api/patients')
+      .get<{ message: string; patients: any; maxPatients: number }>(
+        'http://localhost:3000/api/patients' + queryParams
+      )
       .subscribe((responseData) => {
-        this.patients.next(responseData.patients);
+        this.patientsUpdated.next({
+          patients: responseData.patients,
+          patientsCount: responseData.maxPatients,
+        });
       });
+  }
+
+  getPatientsUpdateListener() {
+    //so we can only subscribe to this subject outside of this service, but not emit any value
+    return this.patientsUpdated.asObservable();
   }
 
   getPatient(id: string) {
     return this.http.get<{ patient: any }>(
       'http://localhost:3000/api/patients/' + id
+    );
+  }
+
+  upDatePatient(
+    id: string,
+    name: string,
+    email: string,
+    phone: string,
+    category: string,
+    profession: string,
+    date: string,
+    time: string,
+    description: string
+  ) {
+    const patientData = {
+      id: id,
+      name: name,
+      email: email,
+      phone: phone,
+      category: category,
+      profession: profession,
+      date: date,
+      time: time,
+      description: description,
+    };
+    this.http
+      .put<{ patients: any }>(
+        'http://localhost:3000/api/patients/' + id,
+        patientData
+      )
+      .subscribe((responseData) => {
+        this.router.navigate(['/list-patients']);
+      });
+  }
+
+  deletePatient(patientId) {
+    return this.http.delete<{ message: string }>(
+      'http://localhost:3000/api/patients/' + patientId
     );
   }
 }

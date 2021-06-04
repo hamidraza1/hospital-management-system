@@ -20,9 +20,16 @@
         color="primary"
         >Edit</a
       >
-      <button mat-button color="warn" (click)="onDeletePatient(patient.id)">
+      <button mat-button color="warn" (click)="onDeletePatient(patient._id)">
         Delete
       </button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
+<mat-paginator
+  [length]="totalPatients"
+  pageSize="patientsPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+  *ngIf="patients.length > 0"
+></mat-paginator>

@@ -1,6 +1,5 @@
 <mat-card>
-  <mat-spinner *ngIf="loading"></mat-spinner>
-  <form (ngSubmit)="onSignup(form)" #form="ngForm" *ngIf="!loading">
+  <form (ngSubmit)="onLogin(form)" #form="ngForm">
     <mat-form-field>
       <mat-label for="email">Email</mat-label>
       <input
@@ -35,6 +34,6 @@
       >
     </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit">Signup</button>
+    <button mat-raised-button color="primary" type="submit">Login</button>
   </form>
 </mat-card>
