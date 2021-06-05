@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { PermissionToSignUpService } from '../../permission-to-sign-up/permission-to-sign-up.service';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -8,15 +9,25 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
+  role: string;
   loading = false;
-  constructor(public authService: AuthService) {}
+  constructor(
+    public authService: AuthService,
+    private permissionToSignUpService: PermissionToSignUpService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.role = this.permissionToSignUpService.getRole();
+  }
 
   onSignup(form: NgForm) {
     if (form.invalid) {
       return;
     }
-    this.authService.createAdmin(form.value.email, form.value.password);
+    this.authService.createAdmin(
+      form.value.email,
+      form.value.password,
+      this.role
+    );
   }
 }

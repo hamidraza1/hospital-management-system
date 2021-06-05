@@ -9,6 +9,7 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
   loading = false;
+  roles = ['Admin', 'Doctor'];
 
   constructor(public authService: AuthService) {}
 
@@ -18,6 +19,10 @@ export class LoginComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    this.authService.loginAdmin(form.value.email, form.value.password);
+    this.authService.loginAdmin(
+      form.value.email,
+      form.value.password,
+      form.value.role
+    );
   }
 }

@@ -30,6 +30,9 @@
         <div class="dropdown-content">
           <a *ngIf="!adminIsAuthenticated" routerLink="/login">Login</a>
           <a *ngIf="!adminIsAuthenticated" routerLink="/signup">Signup</a>
+          <a routerLink="permission-for-admin-or-doctor/signup"
+            >Signup as Admin/Doc</a
+          >
           <a *ngIf="adminIsAuthenticated" (click)="onLogout()">Logout</a>
         </div>
       </div>

@@ -4,6 +4,7 @@
 
 import {
   HttpHandler,
+  HttpHeaders,
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
@@ -17,10 +18,16 @@ export class AuthInterceptor implements HttpInterceptor {
   // Angular call this method on the requests leaving/outgoing from this app(from AuthService)
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const authToken = this.authservice.getToken();
+    const Role = this.authservice.getRole();
+
     //we will add header
     const authRequest = req.clone({
-      headers: req.headers.set('Authorization', 'Bearer ' + authToken),
+      headers: req.headers.set(
+        'Authorization',
+        'Bearer ' + authToken + ' ' + Role
+      ),
     });
+
     //we will allow the request to continue its journey
     return next.handle(authRequest);
   }

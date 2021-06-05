@@ -10,6 +10,8 @@ import { ListDoctorsComponent } from './components/doctors/list-doctors/list-doc
 import { BookAppointmentsComponent } from './components/patients/book-appointments/book-appointments.component';
 import { CreatePatientsComponent } from './components/patients/create-patients/create-patients.component';
 import { ListPatientsComponent } from './components/patients/list-patients/list-patients.component';
+import { PermissionToSignUpComponent } from './components/permission-to-sign-up/permission-to-sign-up.component';
+import { PermissionToSignUpServiceGuard } from './components/permission-to-sign-up/permission-to-sign-up.guard';
 
 const routes: Routes = [
   {
@@ -45,8 +47,16 @@ const routes: Routes = [
     component: BookAppointmentsComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path: 'permission-for-admin-or-doctor/signup',
+    component: PermissionToSignUpComponent,
+  },
   { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
+  {
+    path: 'signup',
+    component: SignupComponent,
+    canActivate: [PermissionToSignUpServiceGuard],
+  },
   { path: 'doctor/login', component: DoctorsLoginComponent },
   { path: 'doctor/signup', component: DoctorsSignupComponent },
 ];

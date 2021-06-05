@@ -1,6 +1,5 @@
 <mat-card>
-  <mat-spinner *ngIf="loading"></mat-spinner>
-  <form (ngSubmit)="onLogin(form)" #form="ngForm" *ngIf="!loading">
+  <form (ngSubmit)="onPermissionRequest(form)" #form="ngForm">
     <mat-form-field>
       <mat-label for="email">Email</mat-label>
       <input
@@ -16,15 +15,6 @@
       <mat-error *ngIf="emailInput.invalid"
         >Please enter a valid email</mat-error
       >
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Login As:</mat-label>
-      <mat-select name="role" ngModel>
-        <mat-option *ngFor="let role of roles" [value]="role">
-          {{ role }}
-        </mat-option>
-      </mat-select>
     </mat-form-field>
 
     <mat-form-field>
@@ -44,6 +34,13 @@
       >
     </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit">Login</button>
+    <p>
+      You need to enter valid credentials, So that you can signup yourself as a
+      an Admin or doctor
+    </p>
+
+    <button mat-raised-button color="primary" type="submit">
+      Request Permission to Signup As a Doctor or Admin
+    </button>
   </form>
 </mat-card>

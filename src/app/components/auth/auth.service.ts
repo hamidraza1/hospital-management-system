@@ -10,52 +10,92 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   public token: string;
+  public role: string;
+  /*---------- For Admin --------------*/
   public isAuthenticated = false;
-  /* tokenTimer: any; */
   private authStatusListener = new Subject<boolean>();
   private userId: string;
+
+  /*---------- For Doctor --------------*/
+  public isDoctorAuthenticated = false;
+  private DoctorAuthStatusListener = new Subject<boolean>();
+  private doctorId: string;
+  private doctorEmail: string;
 
   constructor(private http: HttpClient, private router: Router) {}
 
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
   }
+  getDoctorAuthStatusListener() {
+    return this.DoctorAuthStatusListener.asObservable();
+  }
 
   getIsAuth() {
     return this.isAuthenticated;
+  }
+  getIsDoctorAuth() {
+    return this.isDoctorAuthenticated;
   }
 
   getUserId() {
     return this.userId;
   }
 
-  createAdmin(email: string, password: string) {
-    const authData: AuthData = { email: email, password: password };
+  getDoctorId() {
+    return this.doctorId;
+  }
+
+  getDoctorEmail() {
+    return this.doctorEmail;
+  }
+  getRole() {
+    return this.role;
+  }
+
+  createAdmin(email: string, password: string, role: string) {
+    const authData = { email: email, password: password, role: role };
     this.http
-      .post('http://localhost:3000/api/admin/signup', authData)
-      .subscribe((response) => {
+      .post('http://localhost:3000/api/admin/signup', authData, {
+        observe: 'response',
+      })
+      .subscribe((response: any) => {
         console.log(response);
+
+        this.router.navigate(['/login']);
       });
   }
 
-  loginAdmin(email: string, password: string) {
-    const authData: AuthData = { email: email, password: password };
+  loginAdmin(email: string, password: string, role: string) {
+    const authData = { email: email, password: password, role: role };
     this.http
-      .post<{ token: string; expiresIn: number; userId: string }>(
-        'http://localhost:3000/api/admin/login',
-        authData
-      )
+      .post<{
+        token: string;
+        expiresIn: number;
+        userId: string;
+        loggedInAs: string;
+        doctorId: string;
+        doctorEmail: string;
+      }>('http://localhost:3000/api/admin/login', authData)
       .subscribe((response) => {
+        console.log(response);
         //this token is needed to be attached to each outgoing request(in the auth.interceptor) from doctorsService
         const token = response.token;
         this.token = token;
 
-        if (token) {
+        if (token && response.loggedInAs == 'Admin') {
+          this.role = response.loggedInAs;
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
           this.userId = response.userId;
           this.saveAuthData(token, this.userId);
           this.router.navigate(['/list-doctors']);
+        } else if (token && response.loggedInAs == 'Doctor') {
+          this.role = response.loggedInAs;
+          this.isDoctorAuthenticated = true;
+          this.DoctorAuthStatusListener.next(true);
+          this.doctorId = response.doctorId;
+          this.doctorEmail = response.doctorEmail;
         }
       });
   }

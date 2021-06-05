@@ -12,7 +12,12 @@
       <img [src]="doctor.imagePath" [alt]="doctor.title" />
     </div>
     <p class="doctor-email">{{ doctor.email }}</p>
-    <mat-action-row *ngIf="adminIsAuthenticated && userId === doctor.creator">
+    <mat-action-row
+      *ngIf="
+        (adminIsAuthenticated && userId === doctor.creator) ||
+        (doctorIsAuthenticated && doctor.email === doctorEmail)
+      "
+    >
       <a mat-button [routerLink]="['/edit-doctors', doctor.id]" color="primary"
         >Edit</a
       >

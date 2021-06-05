@@ -20,10 +20,14 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
   pageSizeOptions = [2, 5, 10];
 
   userId: string;
+  doctorId: string;
   private postsSub: Subscription;
   private authStatusSub: Subscription;
+  private authDoctorStatusSub: Subscription;
   public loading: boolean = false;
   public adminIsAuthenticated = false;
+  public doctorIsAuthenticated = false;
+  public doctorEmail: string;
 
   constructor(
     private doctorsService: DoctorsService,
@@ -35,6 +39,7 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.doctorsService.getDoctors(this.doctorsPerPage, this.currentPage);
     this.userId = this.authService.getUserId();
+    this.doctorId = this.authService.getDoctorId();
     this.postsSub = this.doctorsService
       .getDoctorsUpdateListener()
       .subscribe((doctorsData: { doctors: doctor[]; doctorCount: number }) => {
@@ -44,11 +49,19 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
         this.doctors = doctorsData.doctors;
       });
     this.adminIsAuthenticated = this.authService.getIsAuth();
+    this.doctorIsAuthenticated = this.authService.getIsDoctorAuth();
+    this.doctorEmail = this.authService.getDoctorEmail();
     this.authStatusSub = this.authService
       .getAuthStatusListener()
       .subscribe((isAuthenticated) => {
         this.adminIsAuthenticated = isAuthenticated;
         this.userId = this.authService.getUserId();
+      });
+    this.authDoctorStatusSub = this.authService
+      .getDoctorAuthStatusListener()
+      .subscribe((isAuthenticated) => {
+        this.doctorIsAuthenticated = isAuthenticated;
+        this.doctorId = this.authService.getDoctorId();
       });
   }
 
@@ -69,5 +82,6 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
     //when we switch between pages, that subscription should be unsubscribed to prevent memory leak
     this.postsSub.unsubscribe();
     this.authStatusSub.unsubscribe();
+    this.authDoctorStatusSub.unsubscribe();
   }
 }

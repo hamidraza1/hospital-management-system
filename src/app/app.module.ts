@@ -23,6 +23,8 @@ import {
   NgxMatNativeDateModule,
   NgxMatTimepickerModule,
 } from '@angular-material-components/datetime-picker';
+import { MatSelectModule } from '@angular/material/select';
+/* import { MatOptionModule } from '@angular/material/option'; */
 
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { LoginComponent } from './components/auth/login/login.component';
@@ -35,7 +37,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { DoctorsLoginComponent } from './components/auth-doctors/doctors-login/doctors-login.component';
 import { DoctorsSignupComponent } from './components/auth-doctors/doctors-signup/doctors-signup.component';
 import { DoctorAuthInterceptor } from './components/auth-doctors/doctors-auth.interceptor';
-/* import { AuthGuard } from './components/auth/auth.guard'; */
+import { PermissionToSignUpComponent } from './components/permission-to-sign-up/permission-to-sign-up.component';
+import { PermissionToSignUpServiceGuard } from './components/permission-to-sign-up/permission-to-sign-up.guard';
+import { PermissionToSignUpInterceptor } from './components/permission-to-sign-up/permission-to-sign-up.interceptor';
 
 @NgModule({
   declarations: [
@@ -50,6 +54,7 @@ import { DoctorAuthInterceptor } from './components/auth-doctors/doctors-auth.in
     BookAppointmentsComponent,
     DoctorsLoginComponent,
     DoctorsSignupComponent,
+    PermissionToSignUpComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,15 +74,22 @@ import { DoctorAuthInterceptor } from './components/auth-doctors/doctors-auth.in
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
+    MatSelectModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthGuard,
-    {
+    PermissionToSignUpServiceGuard,
+    /* {
       provide: HTTP_INTERCEPTORS,
       useClass: DoctorAuthInterceptor,
       multi: true,
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: PermissionToSignUpInterceptor,
+      multi: true,
+    }, */
   ],
   bootstrap: [AppComponent],
 })

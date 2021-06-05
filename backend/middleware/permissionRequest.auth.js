@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
     const token = req.headers.authorization.split(" ")[1];
     const decodedToken = jwt.verify(
       token,
-      "secret_doctor_this_should_be_longer"
+      "secret_fetchedAdminOrDoc_this_should_be_longer"
     );
     //we can add new field to the request
     //then all the middleware running after this middleware(e.g checkAuth in doctors routes) can access these fields
@@ -20,6 +20,6 @@ module.exports = (req, res, next) => {
     }; */
     next();
   } catch {
-    res.status(401).json({ message: "Auth4* failed" });
+    res.status(401).json({ message: "Auth4 failed" });
   }
 };

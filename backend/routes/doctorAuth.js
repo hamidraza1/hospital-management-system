@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 //
-const doctorCheckAuth = require("../middleware/check.auth");
 
 const DoctorAuth = require("../models/doctorAuth");
 
