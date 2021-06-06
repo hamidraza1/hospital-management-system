@@ -13,6 +13,7 @@ const { userInfo } = require("os");
 
 router.post("/signup", permissionRequestAuth, (req, res, next) => {
   //to hash our password
+  console.log(req.adminData);
   bcrypt.hash(req.body.password, 10).then((hash) => {
     if (req.body.role == "Signup As Admin") {
       const admin = new Admin({

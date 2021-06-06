@@ -19,7 +19,6 @@ export class PermissionToSignUpService {
         authData
       )
       .subscribe((response) => {
-        console.log(response.fetchedAdminOrDoc);
         this.token = response.token;
 
         if (this.token) {

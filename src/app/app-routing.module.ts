@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DoctorsLoginComponent } from './components/auth-doctors/doctors-login/doctors-login.component';
-import { DoctorsSignupComponent } from './components/auth-doctors/doctors-signup/doctors-signup.component';
 import { AuthGuard } from './components/auth/auth.guard';
+import { DocAuthGuard } from './components/auth/docAuth.guard';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { CreateDoctorsComponent } from './components/doctors/create-doctors/create-doctors.component';
@@ -26,7 +25,7 @@ const routes: Routes = [
   {
     path: 'edit-doctors/:doctorId',
     component: CreateDoctorsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [DocAuthGuard],
   },
   {
     path: 'create-patients',
@@ -57,8 +56,6 @@ const routes: Routes = [
     component: SignupComponent,
     canActivate: [PermissionToSignUpServiceGuard],
   },
-  { path: 'doctor/login', component: DoctorsLoginComponent },
-  { path: 'doctor/signup', component: DoctorsSignupComponent },
 ];
 
 @NgModule({

@@ -27,7 +27,7 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Origin, X-Request-With, Content-Type,Accept,Authorization"
+    "Origin, X-Request-With, Content-Type,Accept,Authorization,PermissionToSignUpAuthorization"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -39,13 +39,11 @@ app.use((req, res, next) => {
 const doctorsRoutes = require("./routes/doctors");
 const adminsRoutes = require("./routes/admins");
 const patientsRoutes = require("./routes/patients");
-const doctorAuthRoutes = require("./routes/doctorAuth");
 const permissionRequestRoutes = require("./routes/permissionRequest");
 
 app.use("/api/doctors", doctorsRoutes);
 app.use("/api/admin", adminsRoutes);
 app.use("/api/patients", patientsRoutes);
-app.use("/api/doctorAuth", doctorAuthRoutes);
 app.use("/api/permission-request", permissionRequestRoutes);
 
 module.exports = app;

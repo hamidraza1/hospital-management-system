@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   public token: string;
   public role: string;
+  public roleStatusListener = new Subject<any>();
   /*---------- For Admin --------------*/
   public isAuthenticated = false;
   private authStatusListener = new Subject<boolean>();
@@ -53,6 +54,10 @@ export class AuthService {
     return this.role;
   }
 
+  getRoleStatusListener() {
+    return this.roleStatusListener.asObservable();
+  }
+
   createAdmin(email: string, password: string, role: string) {
     const authData = { email: email, password: password, role: role };
     this.http
@@ -60,8 +65,6 @@ export class AuthService {
         observe: 'response',
       })
       .subscribe((response: any) => {
-        console.log(response);
-
         this.router.navigate(['/login']);
       });
   }
@@ -78,24 +81,27 @@ export class AuthService {
         doctorEmail: string;
       }>('http://localhost:3000/api/admin/login', authData)
       .subscribe((response) => {
-        console.log(response);
         //this token is needed to be attached to each outgoing request(in the auth.interceptor) from doctorsService
         const token = response.token;
         this.token = token;
 
         if (token && response.loggedInAs == 'Admin') {
           this.role = response.loggedInAs;
+          this.roleStatusListener.next('Admin');
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
           this.userId = response.userId;
-          this.saveAuthData(token, this.userId);
+          this.saveAuthData(token, this.userId, this.role, null);
           this.router.navigate(['/list-doctors']);
         } else if (token && response.loggedInAs == 'Doctor') {
           this.role = response.loggedInAs;
+          this.roleStatusListener.next('Doctor');
           this.isDoctorAuthenticated = true;
           this.DoctorAuthStatusListener.next(true);
           this.doctorId = response.doctorId;
           this.doctorEmail = response.doctorEmail;
+          this.saveAuthData(token, this.doctorId, this.role, this.doctorEmail);
+          this.router.navigate(['/list-doctors']);
         }
       });
   }
@@ -108,31 +114,56 @@ export class AuthService {
   logout() {
     this.token = null;
     this.isAuthenticated = false;
+    this.isDoctorAuthenticated = false;
     this.authStatusListener.next(false);
+    this.DoctorAuthStatusListener.next(false);
+    this.role = null;
+    this.roleStatusListener.next('');
     this.clearAuthData();
     this.userId = null;
-    /* clearTimeout(this.tokenTimer); */
+    this.doctorId = null;
     this.router.navigate(['/']);
   }
 
-  private saveAuthData(token: string, userId: string) {
+  private saveAuthData(
+    token: string,
+    userId: string,
+    role: string,
+    docEmail: any
+  ) {
     localStorage.setItem('token', token);
     localStorage.setItem('userId', userId);
+    localStorage.setItem('role', role);
+    localStorage.setItem('docEmail', docEmail);
   }
 
   private clearAuthData() {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('role');
+    localStorage.removeItem('docEmail');
   }
 
   autoAuthAdmin() {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
-    if (token) {
+    const role = localStorage.getItem('role');
+    const docEmail = localStorage.getItem('docEmail');
+    if (token && role == 'Admin') {
       this.authStatusListener.next(true);
       this.isAuthenticated = true;
       this.userId = userId;
       this.token = token;
+      this.role = role;
+      this.roleStatusListener.next('Admin');
+    } else if (token && role == 'Doctor') {
+      this.DoctorAuthStatusListener.next(true);
+      this.isDoctorAuthenticated = true;
+      this.doctorEmail = docEmail;
+      this.userId = userId;
+      this.token = token;
+      this.role = role;
+      this.roleStatusListener.next('Doctor');
     }
   }
 }

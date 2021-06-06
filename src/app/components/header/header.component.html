@@ -26,24 +26,23 @@
     </li>
     <li class="authentication-container">
       <div class="dropdown">
-        <button class="dropbtn">As-Admin</button>
+        <button class="dropbtn">
+          Admin/Doc-Auth <br />
+          <p *ngIf="role" style="font-size: 10px">Loggedin As-{{ role }}</p>
+        </button>
+
         <div class="dropdown-content">
-          <a *ngIf="!adminIsAuthenticated" routerLink="/login">Login</a>
-          <a *ngIf="!adminIsAuthenticated" routerLink="/signup">Signup</a>
-          <a routerLink="permission-for-admin-or-doctor/signup"
-            >Signup as Admin/Doc</a
+          <a
+            *ngIf="!adminIsAuthenticated && !doctorIsAuthenticated"
+            routerLink="/login"
+            >Login</a
           >
-          <a *ngIf="adminIsAuthenticated" (click)="onLogout()">Logout</a>
-        </div>
-      </div>
-    </li>
-    <li class="authentication-container">
-      <div class="dropdown">
-        <button class="dropbtn">As-Doctor</button>
-        <div class="dropdown-content">
-          <a routerLink="/doctor/login">Login</a>
-          <a routerLink="/doctor/signup">Signup</a>
-          <a>Logout</a>
+          <a routerLink="permission-for-admin-or-doctor/signup">Signup</a>
+          <a
+            *ngIf="adminIsAuthenticated || doctorIsAuthenticated"
+            (click)="onLogout()"
+            >Logout</a
+          >
         </div>
       </div>
     </li>

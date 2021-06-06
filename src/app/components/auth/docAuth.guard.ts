@@ -10,13 +10,15 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class DocAuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const isAuth = this.authService.getIsAuth();
-    if (!isAuth) {
+    const isDoctorAuth = this.authService.getIsDoctorAuth();
+
+    if (!isDoctorAuth && !isAuth) {
       this.router.navigate(['/login']);
     }
-    return isAuth;
+    return isAuth || isDoctorAuth;
   }
 }

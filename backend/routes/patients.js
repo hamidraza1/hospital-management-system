@@ -77,7 +77,6 @@ router.put("/:id", checkAuth, (req, res, next) => {
     time: req.body.time,
     description: req.body.description,
   });
-
   Patient.updateOne({ _id: req.body.id }, patient).then((result) => {
     if (result.n > 0) {
       res

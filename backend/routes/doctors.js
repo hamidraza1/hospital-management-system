@@ -58,26 +58,26 @@ router.put(
   checkAuth,
   multer({ storage: storage }).single("image"),
   (req, res, next) => {
-    console.log("hii");
     let imagePath = req.body.imagePath;
     if (req.file) {
       const url = req.protocol + "://" + req.get("host");
       imagePath = url + "/images/" + req.file.filename;
     }
+
     const doctor = new Doctor({
       _id: req.body.id,
       name: req.body.name,
       email: req.body.email,
       speciality: req.body.speciality,
       imagePath: imagePath,
-      creator: req.adminData.adminId,
+      creator: req.adminData.id,
     });
     //creator:rew.adminData.adminId => we will verify, only that admin will be able to edit the doctor who created it
     Doctor.updateOne(
       {
         $or: [
-          { _id: req.params.id, creator: req.adminData.adminId },
-          { _id: req.params.id, email: req.adminData.doctorEmail },
+          { _id: req.params.id, creator: req.adminData.id },
+          { _id: req.params.id, email: req.adminData.email },
         ],
       },
       doctor

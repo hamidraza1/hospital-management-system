@@ -34,12 +34,10 @@ import { CreatePatientsComponent } from './components/patients/create-patients/c
 import { ListPatientsComponent } from './components/patients/list-patients/list-patients.component';
 import { BookAppointmentsComponent } from './components/patients/book-appointments/book-appointments.component';
 import { MatNativeDateModule } from '@angular/material/core';
-import { DoctorsLoginComponent } from './components/auth-doctors/doctors-login/doctors-login.component';
-import { DoctorsSignupComponent } from './components/auth-doctors/doctors-signup/doctors-signup.component';
-import { DoctorAuthInterceptor } from './components/auth-doctors/doctors-auth.interceptor';
 import { PermissionToSignUpComponent } from './components/permission-to-sign-up/permission-to-sign-up.component';
 import { PermissionToSignUpServiceGuard } from './components/permission-to-sign-up/permission-to-sign-up.guard';
 import { PermissionToSignUpInterceptor } from './components/permission-to-sign-up/permission-to-sign-up.interceptor';
+import { DocAuthGuard } from './components/auth/docAuth.guard';
 
 @NgModule({
   declarations: [
@@ -52,8 +50,6 @@ import { PermissionToSignUpInterceptor } from './components/permission-to-sign-u
     CreatePatientsComponent,
     ListPatientsComponent,
     BookAppointmentsComponent,
-    DoctorsLoginComponent,
-    DoctorsSignupComponent,
     PermissionToSignUpComponent,
   ],
   imports: [
@@ -78,18 +74,14 @@ import { PermissionToSignUpInterceptor } from './components/permission-to-sign-u
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    AuthGuard,
-    PermissionToSignUpServiceGuard,
-    /* {
-      provide: HTTP_INTERCEPTORS,
-      useClass: DoctorAuthInterceptor,
-      multi: true,
-    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: PermissionToSignUpInterceptor,
       multi: true,
-    }, */
+    },
+    AuthGuard,
+    DocAuthGuard,
+    PermissionToSignUpServiceGuard,
   ],
   bootstrap: [AppComponent],
 })

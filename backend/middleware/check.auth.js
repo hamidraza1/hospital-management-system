@@ -8,6 +8,7 @@ module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     const Role = req.headers.authorization.split(" ")[2];
+    console.log("---" + token);
 
     if (Role == "Admin") {
       const decodedToken = jwt.verify(token, "secret_this_should_be_longer");
@@ -16,7 +17,8 @@ module.exports = (req, res, next) => {
       //this will help to make relation between models(e.g we will add adminId field in Doctor Model)
       req.adminData = {
         email: decodedToken.email,
-        adminId: decodedToken.adminId,
+        id: decodedToken.adminId,
+        name: "hamid",
       };
     } else if (Role == "Doctor") {
       const decodedDoctorToken = jwt.verify(
@@ -24,8 +26,9 @@ module.exports = (req, res, next) => {
         "secret_doctor_this_should_be_longer"
       );
       req.adminData = {
-        doctorEmail: decodedDoctorToken.email,
-        doctorId: decodedDoctorToken.adminId,
+        email: decodedDoctorToken.email,
+        id: decodedDoctorToken.adminId,
+        name: "hamid",
       };
     }
 
