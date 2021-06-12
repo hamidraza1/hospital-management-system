@@ -2,16 +2,20 @@ const express = require("express");
 const router = express.Router();
 
 const checkAuth = require("../middleware/check.auth");
+const checkPatientAuth = require("../middleware/patient.auth");
+const checkAdminPatientAuth = require("../middleware/adminOrPatient.auth");
 
 const Patient = require("../models/patients");
 
 router.post("/datePicked", (req, res, next) => {
-  Patient.find({ date: req.body.date }).then((patientsWithSpecificDate) => {
-    res.status(200).json({ patients: patientsWithSpecificDate });
-  });
+  Patient.find({ date: req.body.date })
+    .then((patientsWithSpecificDate) => {
+      res.status(200).json({ patients: patientsWithSpecificDate });
+    })
+    .catch((err) => console.log(error));
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", checkPatientAuth, (req, res, next) => {
   const patient = new Patient({
     name: req.body.name,
     email: req.body.email,
@@ -59,13 +63,29 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", checkAdminPatientAuth, (req, res, next) => {
+  if (req.adminData && req.adminData.role === "Doctor") {
+    return res.status(401).json({
+      message: "Doctor can not edit a Patient",
+    });
+  }
   Patient.findOne({ _id: req.params.id }).then((patient) => {
     res.status(200).json({ patient: patient });
   });
 });
 
-router.put("/:id", checkAuth, (req, res, next) => {
+router.get("/patient-email/:email", checkPatientAuth, (req, res, next) => {
+  Patient.findOne({ email: req.params.email }).then((patient) => {
+    res.status(200).json({ patient: patient });
+  });
+});
+
+router.put("/:id", checkAdminPatientAuth, (req, res, next) => {
+  if (req.adminData && req.adminData.role === "Doctor") {
+    return res.status(401).json({
+      message: "Doctor can not edit a Patient",
+    });
+  }
   const patient = new Patient({
     _id: req.body.id,
     name: req.body.name,
@@ -88,7 +108,12 @@ router.put("/:id", checkAuth, (req, res, next) => {
   });
 });
 
-router.delete("/:id", checkAuth, (req, res, next) => {
+router.delete("/:id", checkAdminPatientAuth, (req, res, next) => {
+  if (req.adminData && req.adminData.role === "Doctor") {
+    return res.status(401).json({
+      message: "Doctor can not edit a Patient",
+    });
+  }
   const patientId = req.params.id;
   console.log(patientId);
   Patient.deleteOne({ _id: patientId }).then((result) => {

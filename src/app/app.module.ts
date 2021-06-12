@@ -30,7 +30,6 @@ import { SignupComponent } from './components/auth/signup/signup.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { AuthInterceptor } from './components/auth/auth.interceptor';
 import { AuthGuard } from './components/auth/auth.guard';
-import { CreatePatientsComponent } from './components/patients/create-patients/create-patients.component';
 import { ListPatientsComponent } from './components/patients/list-patients/list-patients.component';
 import { BookAppointmentsComponent } from './components/patients/book-appointments/book-appointments.component';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -38,6 +37,12 @@ import { PermissionToSignUpComponent } from './components/permission-to-sign-up/
 import { PermissionToSignUpServiceGuard } from './components/permission-to-sign-up/permission-to-sign-up.guard';
 import { PermissionToSignUpInterceptor } from './components/permission-to-sign-up/permission-to-sign-up.interceptor';
 import { DocAuthGuard } from './components/auth/docAuth.guard';
+import { PatientLoginComponent } from './components/patient-auth/patient-login/patient-login.component';
+import { PatientSignupComponent } from './components/patient-auth/patient-signup/patient-signup.component';
+import { PatientDetailsComponent } from './components/patients/patient-details/patient-details.component';
+import { PatientAuthGuard } from './components/patient-auth/patient-auth.guard';
+import { PatientAuthInterceptor } from './components/patient-auth/patient-auth.interceptor';
+import { PatientAdminAuthGuard } from './components/auth/patient-adminAuth-guard';
 
 @NgModule({
   declarations: [
@@ -47,10 +52,12 @@ import { DocAuthGuard } from './components/auth/docAuth.guard';
     HeaderComponent,
     SignupComponent,
     LoginComponent,
-    CreatePatientsComponent,
     ListPatientsComponent,
     BookAppointmentsComponent,
     PermissionToSignUpComponent,
+    PatientLoginComponent,
+    PatientSignupComponent,
+    PatientDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,9 +86,16 @@ import { DocAuthGuard } from './components/auth/docAuth.guard';
       useClass: PermissionToSignUpInterceptor,
       multi: true,
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: PatientAuthInterceptor,
+      multi: true,
+    },
     AuthGuard,
     DocAuthGuard,
     PermissionToSignUpServiceGuard,
+    PatientAuthGuard,
+    PatientAdminAuthGuard,
   ],
   bootstrap: [AppComponent],
 })

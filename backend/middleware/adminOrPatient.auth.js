@@ -10,6 +10,8 @@ module.exports = (req, res, next) => {
     const token = req.headers.authorization.split(" ")[1];
     const Role = req.headers.authorization.split(" ")[2];
 
+    const patientAuthToken = req.headers.patientauthorization.split(" ")[1];
+
     if (token && Role == "Admin") {
       const decodedToken = jwt.verify(token, "secret_this_should_be_longer");
       //we can add new field to the request
@@ -30,12 +32,17 @@ module.exports = (req, res, next) => {
         id: decodedDoctorToken.adminId,
         role: "Doctor",
       };
+    } else if (patientAuthToken) {
+      jwt.verify(
+        patientAuthToken,
+        "secret_fetchedPatient_this_should_be_longer"
+      );
     } else {
       throw error;
     }
 
     next();
   } catch {
-    res.status(401).json({ message: "Auth4 failed" });
+    res.status(401).json({ message: "Auth4-- failed" });
   }
 };

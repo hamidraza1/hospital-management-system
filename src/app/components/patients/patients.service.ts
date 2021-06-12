@@ -97,6 +97,12 @@ export class PatientsService {
     );
   }
 
+  getPatientByEmail(email: string) {
+    return this.http.get<{ patient: any }>(
+      'http://localhost:3000/api/patients/patient-email/' + email
+    );
+  }
+
   upDatePatient(
     id: string,
     name: string,

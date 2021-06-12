@@ -27,8 +27,8 @@
     <li class="authentication-container">
       <div class="dropdown">
         <button class="dropbtn">
-          Admin/Doc-Auth <br />
-          <p *ngIf="role" style="font-size: 10px">Loggedin As-{{ role }}</p>
+          <span *ngIf="!role">Admin/Doc-Auth</span> <br />
+          <span *ngIf="role">As-{{ role }}</span>
         </button>
 
         <div class="dropdown-content">
@@ -46,6 +46,24 @@
         </div>
       </div>
     </li>
+    <li>
+      <div class="dropdown">
+        <button class="dropbtn">Patients</button>
+        <div class="dropdown-content">
+          <a *ngIf="!patientIsAuthenticated" routerLink="/patient-login"
+            >Log in</a
+          >
+          <a *ngIf="patientIsAuthenticated" routerLink="/patient-details"
+            >My-details</a
+          >
+          <a routerLink="/patient-signup">Signup</a>
+          <a *ngIf="patientIsAuthenticated" (click)="onPatientLogout()"
+            >Logout</a
+          >
+        </div>
+      </div>
+    </li>
+
     <!-- <li class="authentication-container">
       <div *ngIf="!userIsAuthenticated">
         <a routerLink="/login">Admin-Login</a>

@@ -32,6 +32,11 @@ router.post(
   checkAuth,
   multer({ storage: storage }).single("image"),
   (req, res, next) => {
+    if (req.adminData.role === "Doctor") {
+      return res.status(401).json({
+        message: "Doctor can not add new Doctors",
+      });
+    }
     const url = req.protocol + "://" + req.get("host");
     const doctor = new Doctor({
       name: req.body.name,
@@ -39,7 +44,7 @@ router.post(
       speciality: req.body.speciality,
       imagePath: url + "/images/" + req.file.filename,
       //we will fetch the Admin Id from the inferred token,bcs adminId was inferred while generating the token
-      creator: req.adminData.adminId,
+      creator: req.adminData.id,
     });
     doctor.save().then((createdDoctor) => {
       res.status(201).json({
@@ -127,7 +132,7 @@ router.get("/:id", (req, res, next) => {
 
 router.delete("/:id", checkAuth, (req, res, next) => {
   //creator:rew.adminData.adminId => we will verify, only that admin will be able to edit the doctor who created it
-  Doctor.deleteOne({ _id: req.params.id, creator: req.adminData.adminId }).then(
+  Doctor.deleteOne({ _id: req.params.id, creator: req.adminData.id }).then(
     (result) => {
       /*       res.status(200).json({ message: "doctor deleted successfully" }); */
       if (result.n > 0) {

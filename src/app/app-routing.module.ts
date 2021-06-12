@@ -3,12 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './components/auth/auth.guard';
 import { DocAuthGuard } from './components/auth/docAuth.guard';
 import { LoginComponent } from './components/auth/login/login.component';
+import { PatientAdminAuthGuard } from './components/auth/patient-adminAuth-guard';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { CreateDoctorsComponent } from './components/doctors/create-doctors/create-doctors.component';
 import { ListDoctorsComponent } from './components/doctors/list-doctors/list-doctors.component';
+import { PatientAuthGuard } from './components/patient-auth/patient-auth.guard';
+import { PatientLoginComponent } from './components/patient-auth/patient-login/patient-login.component';
+import { PatientSignupComponent } from './components/patient-auth/patient-signup/patient-signup.component';
 import { BookAppointmentsComponent } from './components/patients/book-appointments/book-appointments.component';
-import { CreatePatientsComponent } from './components/patients/create-patients/create-patients.component';
 import { ListPatientsComponent } from './components/patients/list-patients/list-patients.component';
+import { PatientDetailsComponent } from './components/patients/patient-details/patient-details.component';
 import { PermissionToSignUpComponent } from './components/permission-to-sign-up/permission-to-sign-up.component';
 import { PermissionToSignUpServiceGuard } from './components/permission-to-sign-up/permission-to-sign-up.guard';
 
@@ -28,11 +32,6 @@ const routes: Routes = [
     canActivate: [DocAuthGuard],
   },
   {
-    path: 'create-patients',
-    component: CreatePatientsComponent,
-    canActivate: [AuthGuard],
-  },
-  {
     path: 'list-patients',
     component: ListPatientsComponent,
     canActivate: [AuthGuard],
@@ -40,11 +39,17 @@ const routes: Routes = [
   {
     path: 'book-appointments',
     component: BookAppointmentsComponent,
+    canActivate: [PatientAuthGuard],
   },
   {
     path: 'edit-patients/:patientId',
     component: BookAppointmentsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [PatientAdminAuthGuard],
+  },
+  {
+    path: 'patient-details',
+    component: PatientDetailsComponent,
+    canActivate: [PatientAuthGuard],
   },
   {
     path: 'permission-for-admin-or-doctor/signup',
@@ -55,6 +60,11 @@ const routes: Routes = [
     path: 'signup',
     component: SignupComponent,
     canActivate: [PermissionToSignUpServiceGuard],
+  },
+  { path: 'patient-login', component: PatientLoginComponent },
+  {
+    path: 'patient-signup',
+    component: PatientSignupComponent,
   },
 ];
 

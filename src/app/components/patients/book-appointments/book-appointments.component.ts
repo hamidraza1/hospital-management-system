@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import AppointmentPicker from 'appointment-picker';
+import { PatientAuthService } from '../../patient-auth/patient-auth.service';
 import { PatientsService } from '../patients.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class BookAppointmentsComponent implements OnInit {
   mode = 'create';
   patientId: string;
   public patient;
+  patientEmail: string;
 
   @ViewChild('pickerInput', { static: true }) input: ElementRef;
   picker: AppointmentPicker;
@@ -29,7 +31,8 @@ export class BookAppointmentsComponent implements OnInit {
 
   constructor(
     private patientsService: PatientsService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private patientAuthService: PatientAuthService
   ) {}
 
   ngOnInit() {
@@ -56,6 +59,8 @@ export class BookAppointmentsComponent implements OnInit {
       } else {
         this.mode = 'create';
         this.patientId = null;
+        this.patientEmail = this.patientAuthService.getPatientEmail();
+        this.patient = { email: this.patientEmail };
       }
     });
 
@@ -95,11 +100,12 @@ export class BookAppointmentsComponent implements OnInit {
     if (form.invalid) {
       return;
     }
+
     const Date = form.value.date.toLocaleDateString();
     if (this.mode === 'create') {
       this.patientsService.addPatients(
         form.value.name,
-        form.value.email,
+        this.patientEmail,
         form.value.phone,
         form.value.category,
         form.value.profession,
@@ -116,10 +122,11 @@ export class BookAppointmentsComponent implements OnInit {
         form.value.category,
         form.value.profession,
         Date,
-        form.value.time,
+        this.time,
         form.value.description
       );
     }
+
     form.resetForm();
   }
 

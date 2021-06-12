@@ -8,12 +8,12 @@ const permissionRequestAuth = require("../middleware/permissionRequest.auth");
 
 const Admin = require("../models/admins");
 const DoctorAuth = require("../models/doctorAuth");
+const Doctor = require("../models/doctors");
 
 const { userInfo } = require("os");
 
 router.post("/signup", permissionRequestAuth, (req, res, next) => {
   //to hash our password
-  console.log(req.adminData);
   bcrypt.hash(req.body.password, 10).then((hash) => {
     if (req.body.role == "Signup As Admin") {
       const admin = new Admin({
@@ -35,6 +35,14 @@ router.post("/signup", permissionRequestAuth, (req, res, next) => {
           });
         });
     } else if (req.body.role == "Signup As Doctor") {
+      Doctor.findOne({ email: req.body.email }).then((result) => {
+        if (result) {
+          return res.status(401).json({
+            message:
+              "No such Doctor exist in Database, you can only signup If you have alrady been created by Admin",
+          });
+        }
+      });
       const doctorAuth = new DoctorAuth({
         email: req.body.email,
         password: hash,
