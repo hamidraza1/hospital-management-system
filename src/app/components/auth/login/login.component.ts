@@ -9,7 +9,7 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
   loading = false;
-  roles = ['Admin', 'Doctor'];
+  roles = ['Admin', 'Doctor', 'Receptionist'];
 
   constructor(public authService: AuthService) {}
 

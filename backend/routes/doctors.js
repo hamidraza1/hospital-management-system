@@ -32,9 +32,12 @@ router.post(
   checkAuth,
   multer({ storage: storage }).single("image"),
   (req, res, next) => {
-    if (req.adminData.role === "Doctor") {
+    if (
+      req.adminData.role === "Doctor" ||
+      req.adminData.role === "Receptionist"
+    ) {
       return res.status(401).json({
-        message: "Doctor can not add new Doctors",
+        message: "Doctor or Receptionist can not add new Doctors",
       });
     }
     const url = req.protocol + "://" + req.get("host");
@@ -63,6 +66,11 @@ router.put(
   checkAuth,
   multer({ storage: storage }).single("image"),
   (req, res, next) => {
+    if (req.adminData.role === "Receptionist") {
+      return res.status(401).json({
+        message: "Receptionist can not update a Doctor",
+      });
+    }
     let imagePath = req.body.imagePath;
     if (req.file) {
       const url = req.protocol + "://" + req.get("host");
@@ -121,6 +129,11 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
+  if (req.adminData.role === "Receptionist") {
+    return res.status(401).json({
+      message: "Receptionist can not edit Doctor",
+    });
+  }
   Doctor.findById({ _id: req.params.id }).then((doctor) => {
     if (doctor) {
       res.status(200).json(doctor);
@@ -131,6 +144,11 @@ router.get("/:id", (req, res, next) => {
 });
 
 router.delete("/:id", checkAuth, (req, res, next) => {
+  if (req.adminData.role === "Receptionist") {
+    return res.status(401).json({
+      message: "Receptionist can not delete Doctor",
+    });
+  }
   //creator:rew.adminData.adminId => we will verify, only that admin will be able to edit the doctor who created it
   Doctor.deleteOne({ _id: req.params.id, creator: req.adminData.id }).then(
     (result) => {

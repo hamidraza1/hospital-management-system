@@ -1,4 +1,7 @@
 <mat-card>
+  <p>
+    <strong>{{ this.role }}</strong>
+  </p>
   <mat-spinner *ngIf="loading"></mat-spinner>
   <form (ngSubmit)="onSignup(form)" #form="ngForm" *ngIf="!loading">
     <mat-form-field>

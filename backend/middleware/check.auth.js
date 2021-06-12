@@ -30,6 +30,16 @@ module.exports = (req, res, next) => {
         id: decodedDoctorToken.adminId,
         role: "Doctor",
       };
+    } else if (token && Role == "Receptionist") {
+      const decodedReceptionistToken = jwt.verify(
+        token,
+        "secret_receptionist_this_should_be_longer"
+      );
+      req.adminData = {
+        email: decodedReceptionistToken.email,
+        id: decodedReceptionistToken.adminId,
+        role: "Receptionist",
+      };
     } else {
       throw error;
     }

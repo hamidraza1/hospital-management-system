@@ -63,7 +63,7 @@ export class PatientAuthService {
       });
   }
   private saveAuthData(token: string, patientId: string, patientEmail: string) {
-    localStorage.setItem('token', token);
+    localStorage.setItem('patientToken', token);
     localStorage.setItem('patientId', patientId);
     localStorage.setItem('patientEmail', patientEmail);
   }
@@ -79,13 +79,13 @@ export class PatientAuthService {
   }
 
   private clearAuthData() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('patientToken');
     localStorage.removeItem('patientId');
     localStorage.removeItem('patientEmail');
   }
 
   autoAuthPatient() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('patientToken');
     const patientId = localStorage.getItem('patientId');
     const patientEmail = localStorage.getItem('patientEmail');
     if (token) {

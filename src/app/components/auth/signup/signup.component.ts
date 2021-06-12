@@ -24,7 +24,7 @@ export class SignupComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    this.authService.createAdmin(
+    this.authService.createAdminDocReceptionist(
       form.value.email,
       form.value.password,
       this.role

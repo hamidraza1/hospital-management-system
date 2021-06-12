@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const checkAuth = require("../middleware/check.auth");
 const checkPatientAuth = require("../middleware/patient.auth");
 const checkAdminPatientAuth = require("../middleware/adminOrPatient.auth");
 
@@ -121,6 +120,22 @@ router.delete("/:id", checkAdminPatientAuth, (req, res, next) => {
       res.status(200).json({ message: "doctor deleted successfully" });
     } else {
       res.status(401).json({ message: "Auth7 failed" });
+    }
+  });
+});
+
+router.put("/assign/doctor-to-patient", (req, res, next) => {
+  console.log(req.body);
+  Patient.updateOne(
+    { _id: req.body.patientId },
+    { $set: { assignedDoctor: req.body.doctorId } }
+  ).then((result) => {
+    if (result.n > 0) {
+      res
+        .status(200)
+        .json({ message: "doctor assigned to patient successfully" });
+    } else {
+      res.status(401).json({ message: "Auth8 failed" });
     }
   });
 });

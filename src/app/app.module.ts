@@ -43,6 +43,7 @@ import { PatientDetailsComponent } from './components/patients/patient-details/p
 import { PatientAuthGuard } from './components/patient-auth/patient-auth.guard';
 import { PatientAuthInterceptor } from './components/patient-auth/patient-auth.interceptor';
 import { PatientAdminAuthGuard } from './components/auth/patient-adminAuth-guard';
+import { ReceptionistAdminAuthGuard } from './components/auth/receptionist-adminAuth.guard';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { PatientAdminAuthGuard } from './components/auth/patient-adminAuth-guard
     PermissionToSignUpServiceGuard,
     PatientAuthGuard,
     PatientAdminAuthGuard,
+    ReceptionistAdminAuthGuard,
   ],
   bootstrap: [AppComponent],
 })

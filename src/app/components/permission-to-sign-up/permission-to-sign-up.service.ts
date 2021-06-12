@@ -7,14 +7,14 @@ import { Router } from '@angular/router';
 })
 export class PermissionToSignUpService {
   public token: string;
-  public isAdminDocSignupAuthenticated = false;
+  public isAdminDocReceptionistSignupAuthenticated = false;
   role: string;
   constructor(private http: HttpClient, private router: Router) {}
 
   permissionRequest(email: string, password: string) {
     const authData = { email: email, password: password };
     this.http
-      .post<{ token: string; fetchedAdminOrDoc: any }>(
+      .post<{ token: string; fetchedAdminDocReceptionist: any }>(
         'http://localhost:3000/api/permission-request/login',
         authData
       )
@@ -22,15 +22,15 @@ export class PermissionToSignUpService {
         this.token = response.token;
 
         if (this.token) {
-          this.isAdminDocSignupAuthenticated = true;
-          this.role = response.fetchedAdminOrDoc.role;
+          this.isAdminDocReceptionistSignupAuthenticated = true;
+          this.role = response.fetchedAdminDocReceptionist.role;
           this.router.navigate(['/signup']);
         }
       });
   }
 
   getIsAuth() {
-    return this.isAdminDocSignupAuthenticated;
+    return this.isAdminDocReceptionistSignupAuthenticated;
   }
   getToken() {
     return this.token;

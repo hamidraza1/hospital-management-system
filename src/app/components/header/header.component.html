@@ -12,11 +12,10 @@
         </div>
       </div>
     </li>
-    <li *ngIf="adminIsAuthenticated">
+    <li *ngIf="adminIsAuthenticated || receptionistIsAuthenticated">
       <div class="dropdown">
         <button class="dropbtn">Patients</button>
         <div class="dropdown-content">
-          <a routerLink="/create-patients">Create Patients</a>
           <a routerLink="/list-patients">List Patients</a>
         </div>
       </div>
@@ -33,13 +32,21 @@
 
         <div class="dropdown-content">
           <a
-            *ngIf="!adminIsAuthenticated && !doctorIsAuthenticated"
-            routerLink="/login"
+            *ngIf="
+              !adminIsAuthenticated &&
+              !doctorIsAuthenticated &&
+              !receptionistIsAuthenticated
+            "
+            (click)="onAdminDocLogin()"
             >Login</a
           >
           <a routerLink="permission-for-admin-or-doctor/signup">Signup</a>
           <a
-            *ngIf="adminIsAuthenticated || doctorIsAuthenticated"
+            *ngIf="
+              adminIsAuthenticated ||
+              doctorIsAuthenticated ||
+              receptionistIsAuthenticated
+            "
             (click)="onLogout()"
             >Logout</a
           >
@@ -50,7 +57,7 @@
       <div class="dropdown">
         <button class="dropbtn">Patients</button>
         <div class="dropdown-content">
-          <a *ngIf="!patientIsAuthenticated" routerLink="/patient-login"
+          <a *ngIf="!patientIsAuthenticated" (click)="onPatientLogin()"
             >Log in</a
           >
           <a *ngIf="patientIsAuthenticated" routerLink="/patient-details"

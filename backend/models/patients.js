@@ -9,6 +9,10 @@ const patientSchema = mongoose.Schema({
   date: { type: String, required: true },
   time: { type: String, required: true },
   description: { type: String, required: true },
+  assignedDoctor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Doctor",
+  },
 });
 
 module.exports = mongoose.model("Patient", patientSchema);

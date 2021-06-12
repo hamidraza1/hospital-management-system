@@ -4,6 +4,7 @@ import { AuthGuard } from './components/auth/auth.guard';
 import { DocAuthGuard } from './components/auth/docAuth.guard';
 import { LoginComponent } from './components/auth/login/login.component';
 import { PatientAdminAuthGuard } from './components/auth/patient-adminAuth-guard';
+import { ReceptionistAdminAuthGuard } from './components/auth/receptionist-adminAuth.guard';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { CreateDoctorsComponent } from './components/doctors/create-doctors/create-doctors.component';
 import { ListDoctorsComponent } from './components/doctors/list-doctors/list-doctors.component';
@@ -34,7 +35,7 @@ const routes: Routes = [
   {
     path: 'list-patients',
     component: ListPatientsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [ReceptionistAdminAuthGuard],
   },
   {
     path: 'book-appointments',

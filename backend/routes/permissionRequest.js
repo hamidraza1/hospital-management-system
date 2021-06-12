@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const PermissionRequest = require("../models/permissionRequest");
 
 router.post("/login", (req, res, next) => {
-  let fetchedAdminOrDoc;
+  let fetchedAdminDocReceptionist;
   PermissionRequest.findOne({ email: req.body.email })
     .then((fetched) => {
       //if no admin exist with such email
@@ -14,7 +14,7 @@ router.post("/login", (req, res, next) => {
         return res.status(401).json({ message: "Auth1 failed" });
       }
 
-      fetchedAdminOrDoc = fetched;
+      fetchedAdminDocReceptionist = fetched;
       //if admin email exists, then compare passwords
       return bcrypt.compare(req.body.password, fetched.password);
     })
@@ -26,14 +26,17 @@ router.post("/login", (req, res, next) => {
       //If everything is verified, a token will be generated, and will be sent back to frontend
       //where it will be attached to each outgoing request
       const token = jwt.sign(
-        { email: fetchedAdminOrDoc.email, AdminOrDocId: fetchedAdminOrDoc._id },
+        {
+          email: fetchedAdminDocReceptionist.email,
+          AdminOrDocId: fetchedAdminDocReceptionist._id,
+        },
         "secret_fetchedAdminOrDoc_this_should_be_longer",
         { expiresIn: "1h" }
       );
 
       res.status(200).json({
         token: token,
-        fetchedAdminOrDoc: fetchedAdminOrDoc,
+        fetchedAdminDocReceptionist: fetchedAdminDocReceptionist,
       });
     })
     .catch((err) => {

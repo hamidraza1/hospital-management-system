@@ -22,6 +22,10 @@ export class AuthService {
   private DoctorAuthStatusListener = new Subject<boolean>();
   private doctorId: string;
   private doctorEmail: string;
+  /*---------- For Receptionist --------------*/
+  public isReceptionistAuthenticated = false;
+  private ReceptionistAuthStatusListener = new Subject<boolean>();
+  private receptionistId: string;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -53,12 +57,21 @@ export class AuthService {
   getRole() {
     return this.role;
   }
+  getIsRecptionistAuth() {
+    return this.isReceptionistAuthenticated;
+  }
+  getRecptionistAuthStatusListener() {
+    return this.ReceptionistAuthStatusListener.asObservable();
+  }
+  getRecptionistId() {
+    return this.receptionistId;
+  }
 
   getRoleStatusListener() {
     return this.roleStatusListener.asObservable();
   }
 
-  createAdmin(email: string, password: string, role: string) {
+  createAdminDocReceptionist(email: string, password: string, role: string) {
     const authData = { email: email, password: password, role: role };
     this.http
       .post('http://localhost:3000/api/admin/signup', authData, {
@@ -79,12 +92,13 @@ export class AuthService {
         loggedInAs: string;
         doctorId: string;
         doctorEmail: string;
+        receptionistId: string;
       }>('http://localhost:3000/api/admin/login', authData)
       .subscribe((response) => {
         //this token is needed to be attached to each outgoing request(in the auth.interceptor) from doctorsService
         const token = response.token;
         this.token = token;
-
+        console.log(response);
         if (token && response.loggedInAs == 'Admin') {
           this.role = response.loggedInAs;
           this.roleStatusListener.next('Admin');
@@ -102,6 +116,14 @@ export class AuthService {
           this.doctorEmail = response.doctorEmail;
           this.saveAuthData(token, this.doctorId, this.role, this.doctorEmail);
           this.router.navigate(['/list-doctors']);
+        } else if (token && response.loggedInAs == 'Receptionist') {
+          this.role = response.loggedInAs;
+          this.roleStatusListener.next('Receptionist');
+          this.isReceptionistAuthenticated = true;
+          this.ReceptionistAuthStatusListener.next(true);
+          this.receptionistId = response.receptionistId;
+          this.saveAuthData(token, this.receptionistId, this.role, null);
+          this.router.navigate(['/list-patients']);
         }
       });
   }
@@ -115,13 +137,16 @@ export class AuthService {
     this.token = null;
     this.isAuthenticated = false;
     this.isDoctorAuthenticated = false;
+    this.isReceptionistAuthenticated = false;
     this.authStatusListener.next(false);
     this.DoctorAuthStatusListener.next(false);
+    this.ReceptionistAuthStatusListener.next(false);
     this.role = null;
     this.roleStatusListener.next('');
     this.clearAuthData();
     this.userId = null;
     this.doctorId = null;
+    this.receptionistId = null;
     this.router.navigate(['/']);
   }
 
@@ -164,6 +189,13 @@ export class AuthService {
       this.token = token;
       this.role = role;
       this.roleStatusListener.next('Doctor');
+    } else if (token && role == 'Receptionist') {
+      this.ReceptionistAuthStatusListener.next(true);
+      this.isReceptionistAuthenticated = true;
+      this.userId = userId;
+      this.token = token;
+      this.role = role;
+      this.roleStatusListener.next('Receptionist');
     }
   }
 }

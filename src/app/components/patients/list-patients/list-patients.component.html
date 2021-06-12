@@ -13,15 +13,43 @@
     <p class="doctor-email">{{ patient.date }}</p>
     <p class="doctor-email">{{ patient.time }}</p>
     <p class="doctor-email">{{ patient.description }}</p>
+
+    <mat-form-field appearance="fill" *ngIf="ReceptionistIsAuthenticated">
+      <mat-label>Assign Doctor</mat-label>
+      <mat-select
+        name="AssignedDoctor"
+        ngModel
+        (selectionChange)="onDoctorAssign($event)"
+      >
+        <mat-option *ngFor="let doctor of doctors" [value]="doctor.id">
+          <strong>{{ doctor.name }}</strong> - {{ doctor.speciality }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <mat-action-row>
       <a
+        *ngIf="AdminIsAuthenticated || PatientIsAuthenticated"
         mat-button
         [routerLink]="['/edit-patients', patient._id]"
         color="primary"
         >Edit</a
       >
-      <button mat-button color="warn" (click)="onDeletePatient(patient._id)">
+      <button
+        *ngIf="AdminIsAuthenticated || PatientIsAuthenticated"
+        mat-button
+        color="warn"
+        (click)="onDeletePatient(patient._id)"
+      >
         Delete
+      </button>
+      <button
+        *ngIf="ReceptionistIsAuthenticated"
+        mat-button
+        color="primary"
+        (click)="onAssignDoctor(patient._id)"
+      >
+        Assign Doctor
       </button>
     </mat-action-row>
   </mat-expansion-panel>
