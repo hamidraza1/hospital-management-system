@@ -57,9 +57,8 @@ export class ListPatientsComponent implements OnInit {
       this.patientAuthService.getIsPatientAuthenticated();
     this.AdminIsAuthenticated = this.authService.getIsAuth();
     this.ReceptionistIsAuthenticated = this.authService.getIsRecptionistAuth();
-    this.doctorsService.getDoctors(2, 1);
+    this.doctorsService.getDoctors(1000, 1);
     this.doctorsService.getDoctorsUpdateListener().subscribe((doctorsData) => {
-      console.log(doctorsData.doctors);
       this.doctors = doctorsData.doctors;
     });
   }
@@ -80,12 +79,14 @@ export class ListPatientsComponent implements OnInit {
       .AssignDocToPatient(patientId, this.doctorId)
       .subscribe((response) => {
         /* window.location.reload(); */
+        console.log(response);
       });
 
     this.patientsService
       .AssignPatientsToDoctor(patientId, this.doctorId)
       .subscribe((response) => {
-        window.location.reload();
+        /* window.location.reload(); */
+        console.log(response);
       });
 
     this.doctorId = null;

@@ -13,7 +13,9 @@
     <p class="doctor-email">{{ patient.date }}</p>
     <p class="doctor-email">{{ patient.time }}</p>
     <p class="doctor-email">{{ patient.description }}</p>
-    <p class="doctor-email">Assigned Doc :=> {{ patient.docName }}</p>
+    <p class="doctor-email" *ngIf="patient.docName">
+      Assigned Doc :=> {{ patient.docName }}
+    </p>
 
     <mat-form-field appearance="fill" *ngIf="ReceptionistIsAuthenticated">
       <mat-label>Assign Doctor</mat-label>

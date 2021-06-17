@@ -5,6 +5,7 @@ const multer = require("multer");
 
 //
 const checkAuth = require("../middleware/check.auth");
+const Patient = require("../models/patients");
 
 //multer-config, where it should put file when i detect incoming file
 const MIME_TYPE_MAP = {
@@ -153,7 +154,6 @@ router.delete("/:id", checkAuth, (req, res, next) => {
   //creator:rew.adminData.adminId => we will verify, only that admin will be able to edit the doctor who created it
   Doctor.deleteOne({ _id: req.params.id, creator: req.adminData.id }).then(
     (result) => {
-      /*       res.status(200).json({ message: "doctor deleted successfully" }); */
       if (result.n > 0) {
         res.status(200).json({ message: "doctor deleted successfully" });
       } else {
@@ -161,6 +161,15 @@ router.delete("/:id", checkAuth, (req, res, next) => {
       }
     }
   );
+
+  Patient.updateOne(
+    { assignedDoctor: req.params.id },
+    { $set: { assignedDoctor: null } }
+  ).then((result) => {
+    if (result.n > 0) {
+      res.status(200).json({ message: "assigneddoctor deleted successfully" });
+    }
+  });
 });
 
 module.exports = router;

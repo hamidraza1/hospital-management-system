@@ -3,6 +3,7 @@ const router = express.Router();
 
 const checkPatientAuth = require("../middleware/patient.auth");
 const checkAdminPatientAuth = require("../middleware/adminOrPatient.auth");
+const checkAuth = require("../middleware/check.auth");
 
 const Patient = require("../models/patients");
 const Doctor = require("../models/doctors");
@@ -146,9 +147,26 @@ router.put("/assign/doctor-to-patient", (req, res, next) => {
 
 router.put("/assign/patients-to-doctor", (req, res, next) => {
   patientId = req.body.patientId;
+
+  Doctor.find().then((doctors) => {
+    doctors.map((doctor) => {
+      if (
+        doctor.assignedPatients &&
+        doctor.assignedPatients.indexOf(req.body.patientId) !== -1
+      ) {
+        console.log(doctor._id);
+        Doctor.updateOne(
+          { _id: doctor._id },
+          { $pull: { assignedPatients: patientId } }
+        ).then((result) => console.log(result));
+      }
+    });
+  });
+
   Doctor.updateOne(
     { _id: req.body.doctorId },
-    { $push: { assignedPatients: patientId } }
+    { $addToSet: { assignedPatients: patientId } }
+    /* { $push: { assignedPatients: patientId } } */
   ).then((result) => {
     if (result.n > 0) {
       res
