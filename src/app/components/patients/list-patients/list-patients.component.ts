@@ -18,6 +18,7 @@ export class ListPatientsComponent implements OnInit {
   patients = [];
   doctors;
   doctorId;
+  DoctorAssigned;
 
   //for pagination
   totalPatients = 0;
@@ -39,6 +40,18 @@ export class ListPatientsComponent implements OnInit {
       .subscribe((patientsDate: { patients: any; patientsCount: number }) => {
         this.patients = patientsDate.patients;
         this.totalPatients = patientsDate.patientsCount;
+        this.patients.map((patient) => {
+          if (!patient.assignedDoctor) {
+            return;
+          }
+          this.doctorsService
+            .getDoctor(patient.assignedDoctor)
+            .subscribe((doc) => {
+              if (doc) {
+                patient.docName = doc.name;
+              }
+            });
+        });
       });
     this.PatientIsAuthenticated =
       this.patientAuthService.getIsPatientAuthenticated();
@@ -56,14 +69,25 @@ export class ListPatientsComponent implements OnInit {
       this.patientsService.getPatients(this.patientsPerPage, this.currentPage);
     });
   }
-  onDoctorAssign(event: any) {
+  onDoctorAssignSelector(event: any) {
     this.doctorId = event.value;
   }
   onAssignDoctor(patientId: string) {
     if (!this.doctorId) {
       return;
     }
-    this.patientsService.AssignDocToPatient(patientId, this.doctorId);
+    this.patientsService
+      .AssignDocToPatient(patientId, this.doctorId)
+      .subscribe((response) => {
+        /* window.location.reload(); */
+      });
+
+    this.patientsService
+      .AssignPatientsToDoctor(patientId, this.doctorId)
+      .subscribe((response) => {
+        window.location.reload();
+      });
+
     this.doctorId = null;
   }
 

@@ -143,11 +143,23 @@ export class PatientsService {
 
   AssignDocToPatient(patientId: string, doctorId: string) {
     const DocPatientId = { patientId: patientId, doctorId: doctorId };
-    this.http
-      .put(
-        'http://localhost:3000/api/patients/assign/doctor-to-patient',
-        DocPatientId
-      )
-      .subscribe((response) => console.log(response));
+    return this.http.put(
+      'http://localhost:3000/api/patients/assign/doctor-to-patient',
+      DocPatientId,
+      {
+        observe: 'response',
+      }
+    );
+  }
+
+  AssignPatientsToDoctor(patientId: string, doctorId: string) {
+    const DocPatientId = { patientId: patientId, doctorId: doctorId };
+    return this.http.put(
+      'http://localhost:3000/api/patients/assign/patients-to-doctor',
+      DocPatientId,
+      {
+        observe: 'response',
+      }
+    );
   }
 }

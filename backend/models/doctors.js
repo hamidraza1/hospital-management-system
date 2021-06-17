@@ -10,6 +10,10 @@ const doctorSchema = mongoose.Schema({
     ref: "Admin",
     required: true,
   },
+  assignedPatients: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Patient",
+  },
 });
 
 module.exports = mongoose.model("Doctor", doctorSchema);

@@ -48,6 +48,7 @@ router.post(
       imagePath: url + "/images/" + req.file.filename,
       //we will fetch the Admin Id from the inferred token,bcs adminId was inferred while generating the token
       creator: req.adminData.id,
+      assignedPatients: [],
     });
     doctor.save().then((createdDoctor) => {
       res.status(201).json({
@@ -128,12 +129,12 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.get("/:id", (req, res, next) => {
-  if (req.adminData.role === "Receptionist") {
+router.get("/:id", checkAuth, (req, res, next) => {
+  /* if (req.adminData.role === "Receptionist") {
     return res.status(401).json({
       message: "Receptionist can not edit Doctor",
     });
-  }
+  } */
   Doctor.findById({ _id: req.params.id }).then((doctor) => {
     if (doctor) {
       res.status(200).json(doctor);

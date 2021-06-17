@@ -13,13 +13,14 @@
     <p class="doctor-email">{{ patient.date }}</p>
     <p class="doctor-email">{{ patient.time }}</p>
     <p class="doctor-email">{{ patient.description }}</p>
+    <p class="doctor-email">Assigned Doc :=> {{ patient.docName }}</p>
 
     <mat-form-field appearance="fill" *ngIf="ReceptionistIsAuthenticated">
       <mat-label>Assign Doctor</mat-label>
       <mat-select
         name="AssignedDoctor"
         ngModel
-        (selectionChange)="onDoctorAssign($event)"
+        (selectionChange)="onDoctorAssignSelector($event)"
       >
         <mat-option *ngFor="let doctor of doctors" [value]="doctor.id">
           <strong>{{ doctor.name }}</strong> - {{ doctor.speciality }}

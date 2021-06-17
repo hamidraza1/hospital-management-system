@@ -5,6 +5,7 @@ const checkPatientAuth = require("../middleware/patient.auth");
 const checkAdminPatientAuth = require("../middleware/adminOrPatient.auth");
 
 const Patient = require("../models/patients");
+const Doctor = require("../models/doctors");
 
 router.post("/datePicked", (req, res, next) => {
   Patient.find({ date: req.body.date })
@@ -125,17 +126,36 @@ router.delete("/:id", checkAdminPatientAuth, (req, res, next) => {
 });
 
 router.put("/assign/doctor-to-patient", (req, res, next) => {
-  console.log(req.body);
   Patient.updateOne(
     { _id: req.body.patientId },
     { $set: { assignedDoctor: req.body.doctorId } }
+  )
+    .then((result) => {
+      if (result.n > 0) {
+        res
+          .status(200)
+          .json({ message: "doctor assigned to patient successfully" });
+      } else {
+        res.status(401).json({ message: "Auth8 failed" });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.put("/assign/patients-to-doctor", (req, res, next) => {
+  patientId = req.body.patientId;
+  Doctor.updateOne(
+    { _id: req.body.doctorId },
+    { $push: { assignedPatients: patientId } }
   ).then((result) => {
     if (result.n > 0) {
       res
         .status(200)
-        .json({ message: "doctor assigned to patient successfully" });
+        .json({ message: "patient assigned to doctor successfully" });
     } else {
-      res.status(401).json({ message: "Auth8 failed" });
+      res.status(401).json({ message: "Auth9 failed" });
     }
   });
 });
