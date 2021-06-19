@@ -12,6 +12,10 @@
       <img [src]="doctor.imagePath" [alt]="doctor.title" />
     </div>
     <p class="doctor-email">{{ doctor.email }}</p>
+    <p class="doctor-email" *ngFor="let patient of doctor.assignedPatients">
+      {{ patient.name }}
+    </p>
+
     <mat-action-row
       *ngIf="
         (adminIsAuthenticated && userId === doctor.creator) ||

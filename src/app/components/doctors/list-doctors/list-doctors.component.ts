@@ -4,6 +4,7 @@ import { DoctorsService } from '../doctors.service';
 import { Subscription } from 'rxjs';
 import { PageEvent } from '@angular/material/Paginator';
 import { AuthService } from '../../auth/auth.service';
+import { PatientsService } from '../../patients/patients.service';
 
 @Component({
   selector: 'app-list-doctors',
@@ -11,11 +12,11 @@ import { AuthService } from '../../auth/auth.service';
   styleUrls: ['./list-doctors.component.css'],
 })
 export class ListDoctorsComponent implements OnInit, OnDestroy {
-  doctors: doctor[] = [];
+  doctors = [];
 
   //for pagination
   totalDoctors = 0;
-  doctorsPerPage = 2;
+  doctorsPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [2, 5, 10];
 
@@ -31,7 +32,8 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
 
   constructor(
     private doctorsService: DoctorsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private patientsService: PatientsService
   ) {}
 
   ngOnInit() {
@@ -47,6 +49,23 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.totalDoctors = doctorsData.doctorCount;
         this.doctors = doctorsData.doctors;
+
+        //getting details of assigned patinets
+        this.doctors.map((doctor) => {
+          if (!doctor.assignedPatients) {
+            return;
+          }
+          doctor.assignedPatients.map((assignedPatientId) =>
+            this.patientsService
+              .getPatient(assignedPatientId)
+              .subscribe((patientData) => {
+                doctor.assignedPatients[
+                  doctor.assignedPatients.indexOf(assignedPatientId)
+                ] = patientData.patient;
+                console.log(this.doctors);
+              })
+          );
+        });
       });
     this.adminIsAuthenticated = this.authService.getIsAuth();
     this.doctorIsAuthenticated = this.authService.getIsDoctorAuth();

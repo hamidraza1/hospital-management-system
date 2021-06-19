@@ -22,7 +22,7 @@ export class ListPatientsComponent implements OnInit {
 
   //for pagination
   totalPatients = 0;
-  patientsPerPage = 2;
+  patientsPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [2, 5, 10];
 
@@ -79,14 +79,12 @@ export class ListPatientsComponent implements OnInit {
       .AssignDocToPatient(patientId, this.doctorId)
       .subscribe((response) => {
         /* window.location.reload(); */
-        console.log(response);
       });
 
     this.patientsService
       .AssignPatientsToDoctor(patientId, this.doctorId)
       .subscribe((response) => {
-        /* window.location.reload(); */
-        console.log(response);
+        window.location.reload();
       });
 
     this.doctorId = null;

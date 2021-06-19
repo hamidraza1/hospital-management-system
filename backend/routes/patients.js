@@ -64,16 +64,20 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.get("/:id", checkAdminPatientAuth, (req, res, next) => {
-  if (req.adminData && req.adminData.role === "Doctor") {
-    return res.status(401).json({
-      message: "Doctor can not edit a Patient",
+//checkAdminPatientAuth disabled because Receptionist wants to get details
+router.get(
+  "/:id",
+  /* checkAdminPatientAuth, */ (req, res, next) => {
+    if (req.adminData && req.adminData.role === "Doctor") {
+      return res.status(401).json({
+        message: "Doctor can not edit a Patient",
+      });
+    }
+    Patient.findOne({ _id: req.params.id }).then((patient) => {
+      res.status(200).json({ patient: patient });
     });
   }
-  Patient.findOne({ _id: req.params.id }).then((patient) => {
-    res.status(200).json({ patient: patient });
-  });
-});
+);
 
 router.get("/patient-email/:email", checkPatientAuth, (req, res, next) => {
   Patient.findOne({ email: req.params.email }).then((patient) => {
@@ -148,6 +152,7 @@ router.put("/assign/doctor-to-patient", (req, res, next) => {
 router.put("/assign/patients-to-doctor", (req, res, next) => {
   patientId = req.body.patientId;
 
+  //If patient is transferred from one Doc1 to Doc2, He will be deleted first from Doc1 assignedPatients Array.
   Doctor.find().then((doctors) => {
     doctors.map((doctor) => {
       if (
@@ -158,15 +163,19 @@ router.put("/assign/patients-to-doctor", (req, res, next) => {
         Doctor.updateOne(
           { _id: doctor._id },
           { $pull: { assignedPatients: patientId } }
-        ).then((result) => console.log(result));
+        ).then((result) => {
+          if (result.n > 0) {
+            res.status(200).json({ message: "patient unassigned from doctor" });
+          }
+        });
       }
     });
   });
 
+  //Then He will be assigned to Doc2
   Doctor.updateOne(
     { _id: req.body.doctorId },
     { $addToSet: { assignedPatients: patientId } }
-    /* { $push: { assignedPatients: patientId } } */
   ).then((result) => {
     if (result.n > 0) {
       res

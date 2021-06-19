@@ -9,9 +9,9 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class DoctorsService {
-  private doctors: doctor[] = [];
+  private doctors = [];
   private doctorsUpdated = new Subject<{
-    doctors: doctor[];
+    doctors;
     doctorCount: number;
   }>();
 
@@ -34,6 +34,7 @@ export class DoctorsService {
                 speciality: doctor.speciality,
                 imagePath: doctor.imagePath,
                 creator: doctor.creator,
+                assignedPatients: doctor.assignedPatients,
               };
             }),
             maxPosts: doctorsData.maxDoctors,
