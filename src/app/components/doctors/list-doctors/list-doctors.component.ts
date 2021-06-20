@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { PageEvent } from '@angular/material/Paginator';
 import { AuthService } from '../../auth/auth.service';
 import { PatientsService } from '../../patients/patients.service';
+import { MatDialog } from '@angular/material/dialog';
+import { PatientDialogComponent } from './patient-dialog/patient-dialog.component';
 
 @Component({
   selector: 'app-list-doctors',
@@ -33,7 +35,8 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
   constructor(
     private doctorsService: DoctorsService,
     private authService: AuthService,
-    private patientsService: PatientsService
+    private patientsService: PatientsService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -82,6 +85,12 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
         this.doctorIsAuthenticated = isAuthenticated;
         this.doctorId = this.authService.getDoctorId();
       });
+  }
+
+  onOpenDialog(assignedPatients: any) {
+    this.dialog.open(PatientDialogComponent, {
+      data: { Patients: assignedPatients },
+    });
   }
 
   onDeletedoctor(doctorId: string) {

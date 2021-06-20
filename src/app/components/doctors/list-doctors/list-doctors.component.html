@@ -1,5 +1,5 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
-<mat-accordion multi="true" *ngIf="doctors.length > 0 && !loading">
+<!-- <mat-accordion multi="true" *ngIf="doctors.length > 0 && !loading">
   <mat-expansion-panel *ngFor="let doctor of doctors">
     <mat-expansion-panel-header>
       <mat-panel-title class="doctor-speciality">
@@ -30,7 +30,45 @@
       </button>
     </mat-action-row>
   </mat-expansion-panel>
-</mat-accordion>
+</mat-accordion> -->
+
+<!-- hhhh -->
+<div class="doctors-container">
+  <div class="doctor" *ngFor="let doctor of doctors">
+    <div class="doctor-speciality">
+      {{ doctor.speciality }}
+      <div
+        class="dropdown"
+        *ngIf="
+          (adminIsAuthenticated && userId === doctor.creator) ||
+          (doctorIsAuthenticated && doctor.email === doctorEmail)
+        "
+      >
+        <i class="fas fa-chevron-down dropbtn"></i>
+        <div class="dropdown-content">
+          <button (click)="onOpenDialog(doctor.assignedPatients)">
+            My Patients
+          </button>
+          <a mat-button class="Edit" [routerLink]="['/edit-doctors', doctor.id]"
+            >Edit</a
+          >
+          <button mat-button class="Delete" (click)="onDeletedoctor(doctor.id)">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="under-line"></div>
+    <p class="doctor-name">{{ doctor.name }}</p>
+    <div class="doctor-image">
+      <img [src]="doctor.imagePath" [alt]="doctor.title" />
+    </div>
+    <p class="doctor-email">{{ doctor.email }}</p>
+    <p class="doctor-email" *ngFor="let patient of doctor.assignedPatients">
+      {{ patient.name }}
+    </p>
+  </div>
+</div>
 <mat-paginator
   [length]="totalDoctors"
   pageSize="doctorsPerPage"

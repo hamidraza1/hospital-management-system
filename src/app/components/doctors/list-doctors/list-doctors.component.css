@@ -1,6 +1,30 @@
 mat-spinner {
   margin: auto;
 }
+.doctors-container {
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.doctor {
+  width: 350px;
+  border: 0.5px dotted rgb(221, 221, 221);
+  border-radius: 5px;
+  padding: 15px;
+}
+.doctor:hover {
+  border: 1px solid rgb(64, 64, 64);
+  cursor: pointer;
+}
+.doctor-speciality {
+  color: rgb(78, 72, 72);
+  display: flex;
+  justify-content: space-between;
+  font-size: 24px;
+  padding: 10px 5px;
+}
+
 .doctor-image {
   width: 100%;
   margin: 3em auto;
@@ -17,13 +41,10 @@ mat-spinner {
   width: 50%;
   margin: 10px auto;
 }
-.doctor-speciality {
-  color: rgb(3, 125, 113);
-}
 .doctor-name {
   margin: atuo;
   font-weight: 600;
-  font-size: 22px;
+  font-size: 18px;
   text-align: center;
 }
 .doctor-email {
@@ -32,4 +53,55 @@ mat-spinner {
   text-decoration: underline;
   text-underline-position: under;
   text-align: right;
+}
+
+/*------------- styling of dropdown--------------- */
+/* Style The Dropdown Button */
+.dropbtn {
+  color: rgb(138, 126, 155);
+  background-color: white;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  background-color: white;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgb(142, 198, 177);
+  min-width: 180px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  z-index: 1;
+  margin-left: -150px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content > * {
+  color: white !important;
+  padding: 3px;
+  font-size: 16px !important;
+  text-decoration: none;
+  display: flex;
+  width: 100%;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content > *:hover {
+  background-color: rgb(64, 64, 64);
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
 }
