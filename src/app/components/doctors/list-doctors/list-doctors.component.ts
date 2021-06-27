@@ -30,6 +30,7 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
   public loading: boolean = false;
   public adminIsAuthenticated = false;
   public doctorIsAuthenticated = false;
+  public receptionistIsAuthenticated = false;
   public doctorEmail: string;
 
   constructor(
@@ -65,7 +66,6 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
                 doctor.assignedPatients[
                   doctor.assignedPatients.indexOf(assignedPatientId)
                 ] = patientData.patient;
-                console.log(this.doctors);
               })
           );
         });
@@ -85,10 +85,18 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
         this.doctorIsAuthenticated = isAuthenticated;
         this.doctorId = this.authService.getDoctorId();
       });
+
+    this.receptionistIsAuthenticated = this.authService.getIsRecptionistAuth();
+    this.authService
+      .getRecptionistAuthStatusListener()
+      .subscribe((isAuthenticated) => {
+        this.receptionistIsAuthenticated = isAuthenticated;
+      });
   }
 
   onOpenDialog(assignedPatients: any) {
     this.dialog.open(PatientDialogComponent, {
+      width: '500px',
       data: { Patients: assignedPatients },
     });
   }

@@ -4,18 +4,31 @@
       <mat-panel-title class="doctor-speciality">
         {{ patient.name }}
       </mat-panel-title>
-      <mat-panel-description>{{ patient.category }}</mat-panel-description>
+      <mat-panel-description
+        ><span>{{ patient.category }}</span
+        ><span class="patient-dateTime"
+          >{{ patient.date }}-{{ patient.time }}</span
+        ></mat-panel-description
+      >
     </mat-expansion-panel-header>
     <div class="under-line"></div>
-    <p class="doctor-name">{{ patient.phone }}</p>
-    <p class="doctor-email">{{ patient.email }}</p>
-    <p class="doctor-email">{{ patient.profession }}</p>
-    <p class="doctor-email">{{ patient.date }}</p>
-    <p class="doctor-email">{{ patient.time }}</p>
-    <p class="doctor-email">{{ patient.description }}</p>
-    <p class="doctor-email" *ngIf="patient.docName">
-      Assigned Doc :=> {{ patient.docName }}
-    </p>
+    <span class="personal-details"
+      ><p class="patient-phone"><span>Phone: </span>{{ patient.phone }}</p>
+      <p class="patient-email"><span>Email: </span>{{ patient.email }}</p>
+      <p class="patient-profession">
+        <span>Profession: </span>{{ patient.profession }}
+      </p></span
+    >
+
+    <span class="doc-related-details">
+      <p class="patient-description">
+        <span>Description: </span>{{ patient.description }}
+      </p>
+      <p class="assignedDoc" *ngIf="patient.docName">
+        <span> Assigned Doc :</span>
+        DR. {{ patient.docName }}
+      </p>
+    </span>
 
     <mat-form-field appearance="fill" *ngIf="ReceptionistIsAuthenticated">
       <mat-label>Assign Doctor</mat-label>
@@ -59,7 +72,7 @@
 </mat-accordion>
 <mat-paginator
   [length]="totalPatients"
-  pageSize="patientsPerPage"
+  pageSize="5"
   [pageSizeOptions]="pageSizeOptions"
   (page)="onChangedPage($event)"
   *ngIf="patients.length > 0"

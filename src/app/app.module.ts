@@ -24,7 +24,7 @@ import {
   NgxMatTimepickerModule,
 } from '@angular-material-components/datetime-picker';
 import { MatSelectModule } from '@angular/material/select';
-/* import { MatOptionModule } from '@angular/material/option'; */
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { LoginComponent } from './components/auth/login/login.component';
@@ -44,6 +44,8 @@ import { PatientAuthGuard } from './components/patient-auth/patient-auth.guard';
 import { PatientAuthInterceptor } from './components/patient-auth/patient-auth.interceptor';
 import { PatientAdminAuthGuard } from './components/auth/patient-adminAuth-guard';
 import { ReceptionistAdminAuthGuard } from './components/auth/receptionist-adminAuth.guard';
+import { HeaderContactsComponent } from './components/header/header-contacts/header-contacts.component';
+import { PatientDialogComponent } from './components/doctors/list-doctors/patient-dialog/patient-dialog.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,10 @@ import { ReceptionistAdminAuthGuard } from './components/auth/receptionist-admin
     PatientLoginComponent,
     PatientSignupComponent,
     PatientDetailsComponent,
+    HeaderContactsComponent,
+    PatientDialogComponent,
   ],
+  entryComponents: [PatientDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -79,6 +84,7 @@ import { ReceptionistAdminAuthGuard } from './components/auth/receptionist-admin
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
     MatSelectModule,
+    MatDialogModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

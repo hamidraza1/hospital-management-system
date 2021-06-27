@@ -1,3 +1,4 @@
+<app-header-contacts></app-header-contacts>
 <div class="header-container">
   <ul>
     <li><a routerLink="/">Home</a></li>
@@ -14,19 +15,13 @@
     </li>
     <li *ngIf="adminIsAuthenticated || receptionistIsAuthenticated">
       <div class="dropdown">
-        <button class="dropbtn">Patients</button>
-        <div class="dropdown-content">
-          <a routerLink="/list-patients">List Patients</a>
-        </div>
+        <a routerLink="/list-patients">Patients List</a>
       </div>
-    </li>
-    <li class="appointment">
-      <a routerLink="/book-appointments">Appointment</a>
     </li>
     <li class="authentication-container">
       <div class="dropdown">
         <button class="dropbtn">
-          <span *ngIf="!role">Admin/Doc-Auth</span> <br />
+          <span *ngIf="!role">Admin/Doc/Recept</span>
           <span *ngIf="role">As-{{ role }}</span>
         </button>
 
@@ -70,17 +65,11 @@
         </div>
       </div>
     </li>
-
-    <!-- <li class="authentication-container">
-      <div *ngIf="!userIsAuthenticated">
-        <a routerLink="/login">Admin-Login</a>
-      </div>
-      <div *ngIf="!userIsAuthenticated">
-        <a routerLink="/signup">Admin-Signup</a>
-      </div>
-      <div *ngIf="userIsAuthenticated" (click)="onLogout()">
-        <a>Logout</a>
-      </div>
-    </li> -->
+    <li class="appointment">
+      <a routerLink="/book-appointments"
+        ><i class="fas fa-calendar-alt calendar"></i><span>Appointment</span>
+      </a>
+    </li>
   </ul>
 </div>
+<div class="contact-container-border"></div>

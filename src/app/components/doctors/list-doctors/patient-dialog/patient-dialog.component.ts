@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 
@@ -7,10 +7,16 @@ import { Inject } from '@angular/core';
   templateUrl: './patient-dialog.component.html',
   styleUrls: ['./patient-dialog.component.css'],
 })
-export class PatientDialogComponent implements OnInit {
+export class PatientDialogComponent implements OnInit, OnDestroy {
+  public Patients: [];
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
-    console.log(this.data.Patients);
+    this.Patients = this.data.Patients;
+    console.log(this.Patients.length);
+  }
+  ngOnDestroy() {
+    this.Patients = null;
   }
 }

@@ -5,13 +5,16 @@ mat-spinner {
   margin: auto;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 .doctor {
-  width: 350px;
+  min-width: 350px;
   border: 0.5px dotted rgb(221, 221, 221);
   border-radius: 5px;
   padding: 15px;
+  margin-right: 10px;
+  margin-bottom: 20px;
 }
 .doctor:hover {
   border: 1px solid rgb(64, 64, 64);
@@ -32,8 +35,8 @@ mat-spinner {
 .doctor-image img {
   display: block;
   border-radius: 50%;
-  height: 150px;
-  width: 150px;
+  height: 100px;
+  width: 100px;
   margin: auto;
 }
 .under-line {

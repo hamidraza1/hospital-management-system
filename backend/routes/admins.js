@@ -37,17 +37,20 @@ router.post("/signup", permissionRequestAuth, (req, res, next) => {
         });
     } else if (req.body.role == "Signup As Doctor") {
       Doctor.findOne({ email: req.body.email }).then((result) => {
-        if (result) {
+        if (!result) {
+          console.log(result);
           return res.status(401).json({
             message:
               "No such Doctor exist in Database, you can only signup If you have alrady been created by Admin",
           });
         }
       });
+
       const doctorAuth = new DoctorAuth({
         email: req.body.email,
         password: hash,
       });
+
       doctorAuth
         .save()
         .then((result) => {

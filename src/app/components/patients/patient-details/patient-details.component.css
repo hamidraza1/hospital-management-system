@@ -1,0 +1,52 @@
+mat-panel-title {
+  width: 60%;
+}
+mat-panel-description {
+  display: flex;
+  margin-left: auto;
+  width: 40%;
+}
+.patient-dateTime {
+  margin-left: auto;
+  margin-right: 20px;
+}
+.under-line {
+  border-bottom: 1px solid rgb(146, 43, 43);
+  margin-bottom: 5px;
+}
+.personal-details {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 0;
+}
+.patient-phone span {
+  font-size: 18px;
+  font-weight: 600;
+  color: red;
+}
+.patient-email span {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(63, 81, 181);
+}
+.patient-profession span {
+  font-size: 18px;
+  font-weight: 600;
+  color: green;
+}
+.patient-description span {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(63, 81, 181);
+}
+
+.doc-related-details {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 0;
+}
+.assignedDoc span {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(2, 59, 54);
+}

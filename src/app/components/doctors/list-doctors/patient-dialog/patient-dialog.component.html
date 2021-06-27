@@ -1,5 +1,25 @@
-<h2 mat-dialog-title>Assigned Patients</h2>
-<h2 mat-dialog-content>patient 1</h2>
-<mat-dialog-actions>
-  <button mat-dialog-close>OK</button>
+<h2 mat-dialog-title class="dialog-heading">Assigned Patients</h2>
+<h2 mat-dialog-content>
+  <mat-accordion multi="true" *ngIf="Patients">
+    <mat-expansion-panel *ngFor="let patient of Patients">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ patient.name }}
+          <span class="dateTime">{{ patient.date }}-{{ patient.time }}</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p class="email"><span>Email: </span>{{ patient.email }}</p>
+      <p class="profession">
+        <span>Profession: </span>{{ patient.profession }}
+      </p>
+      <p class="description">
+        <span>Description: </span>{{ patient.description }}
+      </p>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <h3 *ngIf="Patients.length == 0">No Patients Assigned</h3>
+</h2>
+
+<mat-dialog-actions class="buttons">
+  <button mat-dialog-close class="ok-button">OK</button>
 </mat-dialog-actions>

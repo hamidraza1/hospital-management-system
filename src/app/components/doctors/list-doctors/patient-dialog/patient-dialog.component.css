@@ -1,0 +1,35 @@
+.dialog-heading {
+  text-align: center;
+}
+.dateTime {
+  color: rgb(70, 168, 158);
+  font-size: 14px;
+  margin-left: auto;
+}
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ok-button {
+  border: none;
+  padding: 5px 30px;
+  background-color: rgb(70, 168, 158);
+  color: white;
+}
+.ok-button:hover {
+  background-color: rgb(39, 99, 93);
+  cursor: pointer;
+}
+.email span {
+  font-weight: 600;
+  color: red;
+}
+.profession span {
+  font-weight: 600;
+  color: rgb(63, 81, 181);
+}
+.description span {
+  font-weight: 600;
+  color: green;
+}

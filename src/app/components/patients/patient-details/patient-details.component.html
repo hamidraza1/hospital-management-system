@@ -5,18 +5,30 @@
         {{ patient.name }}
       </mat-panel-title>
       <mat-panel-description
-        >{{ patient.date }}-{{ patient.time }}</mat-panel-description
+        ><span>{{ patient.category }}</span
+        ><span class="patient-dateTime"
+          >{{ patient.date }}-{{ patient.time }}</span
+        ></mat-panel-description
       >
     </mat-expansion-panel-header>
     <div class="under-line"></div>
-    <p class="doctor-name">{{ patient.phone }}</p>
-    <p class="doctor-email">{{ patient.email }}</p>
-    <p class="doctor-email">{{ patient.profession }}</p>
-    <p class="doctor-email">{{ patient.category }}</p>
-    <p class="doctor-email">{{ patient.description }}</p>
-    <p class="doctor-email">
-      Assigned Doctor => {{ assignedDoctorDetails?.name }}
-    </p>
+    <span class="personal-details"
+      ><p class="patient-phone"><span>Phone: </span>{{ patient.phone }}</p>
+      <p class="patient-email"><span>Email: </span>{{ patient.email }}</p>
+      <p class="patient-profession">
+        <span>Profession: </span>{{ patient.profession }}
+      </p></span
+    >
+    <span class="doc-related-details">
+      <p class="patient-description">
+        <span>Description: </span>{{ patient.description }}
+      </p>
+      <p class="assignedDoc">
+        <span> Assigned Doc :</span>
+        DR. {{ assignedDoctorDetails?.name }}
+      </p>
+    </span>
+
     <mat-action-row>
       <a
         mat-button
