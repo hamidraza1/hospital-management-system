@@ -5,3 +5,11 @@ p {
   font-size: 12px;
   color: rgb(117, 117, 117);
 }
+p span {
+  font-size: 12px;
+  color: rgb(117, 117, 117);
+}
+.wrong-crediantilas {
+  font-size: 12px;
+  color: red;
+}

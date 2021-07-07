@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -46,6 +47,7 @@ import { PatientAdminAuthGuard } from './components/auth/patient-adminAuth-guard
 import { ReceptionistAdminAuthGuard } from './components/auth/receptionist-adminAuth.guard';
 import { HeaderContactsComponent } from './components/header/header-contacts/header-contacts.component';
 import { PatientDialogComponent } from './components/doctors/list-doctors/patient-dialog/patient-dialog.component';
+import { DoctorDetailsComponent } from './components/doctors/doctor-details/doctor-details.component';
 
 @NgModule({
   declarations: [
@@ -63,10 +65,12 @@ import { PatientDialogComponent } from './components/doctors/list-doctors/patien
     PatientDetailsComponent,
     HeaderContactsComponent,
     PatientDialogComponent,
+    DoctorDetailsComponent,
   ],
   entryComponents: [PatientDialogComponent],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,

@@ -1,3 +1,11 @@
+<div class="notification" *ngIf="isAppointmentAlreadyBookedForPatient">
+  <span (click)="onNotificationClose()"
+    ><i class="fas fa-times cross"></i
+  ></span>
+
+  You have already booked an appointment, you can either edit that or delete
+  that to book a new appoointment
+</div>
 <mat-card>
   <form
     (ngSubmit)="onAddPatient(form)"
@@ -101,6 +109,13 @@
       </mat-form-field>
     </span>
 
-    <button mat-raised-button color="primary" type="submit">Submit</button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="isAppointmentAlreadyBookedForPatient"
+    >
+      Submit
+    </button>
   </form>
 </mat-card>

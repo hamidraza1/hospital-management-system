@@ -7,6 +7,7 @@ import { AuthService } from '../../auth/auth.service';
 import { PatientsService } from '../../patients/patients.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PatientDialogComponent } from './patient-dialog/patient-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-doctors',
@@ -37,7 +38,8 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
     private doctorsService: DoctorsService,
     private authService: AuthService,
     private patientsService: PatientsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -106,6 +108,11 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
     this.doctorsService.deletedoctor(doctorId).subscribe(() => {
       this.doctorsService.getDoctors(this.doctorsPerPage, this.currentPage);
     });
+  }
+
+  doctorDetails(doctor) {
+    console.log(doctor);
+    this.router.navigate([`/doctor-details/${doctor.id}`]);
   }
 
   onChangedPage(pageData: PageEvent) {

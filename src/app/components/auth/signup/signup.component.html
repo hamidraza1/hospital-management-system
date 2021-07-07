@@ -1,9 +1,17 @@
 <mat-card>
   <p>
-    <strong>{{ this.role }}</strong>
+    <strong>{{ role }} </strong>
+    <span *ngIf="role == 'Signup As Doctor'"></span>
+    (You can only signup, if you are already been created by Admin)
   </p>
   <mat-spinner *ngIf="loading"></mat-spinner>
   <form (ngSubmit)="onSignup(form)" #form="ngForm" *ngIf="!loading">
+    <p class="wrong-crediantilas" *ngIf="responseStatus == 500">
+      *Username already exists
+    </p>
+    <p class="wrong-crediantilas" *ngIf="responseStatus == 401">
+      *You are not already been created by Admin
+    </p>
     <mat-form-field>
       <mat-label for="email">Email</mat-label>
       <input

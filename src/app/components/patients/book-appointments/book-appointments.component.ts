@@ -20,6 +20,7 @@ export class BookAppointmentsComponent implements OnInit {
   patientId: string;
   public patient;
   patientEmail: string;
+  isAppointmentAlreadyBookedForPatient;
 
   @ViewChild('pickerInput', { static: true }) input: ElementRef;
   picker: AppointmentPicker;
@@ -85,6 +86,12 @@ export class BookAppointmentsComponent implements OnInit {
       interval: 30,
       disabled: this.unAvailableTimeSlots,
     });
+    /*---------- if Patient has already booked the appointment ------------*/
+    this.patientsService.isAppointmentAlreadyBookedForPatient.subscribe(
+      (res) => {
+        this.isAppointmentAlreadyBookedForPatient = res;
+      }
+    );
   }
 
   onDatePicked(event: any) {
@@ -95,6 +102,9 @@ export class BookAppointmentsComponent implements OnInit {
       const day = date.getDay();
       return day !== 0 && day !== 6;
     }
+  }
+  onNotificationClose() {
+    this.patientsService.isAppointmentAlreadyBookedForPatient.next(false);
   }
   onAddPatient(form: NgForm) {
     if (form.invalid) {

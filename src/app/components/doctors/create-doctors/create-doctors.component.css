@@ -20,3 +20,23 @@ mat-spinner {
 .image-preview img {
   height: 100%;
 }
+.email-experience-phone {
+  display: flex;
+  justify-content: space-between;
+}
+.email-experience-phone mat-form-field {
+  width: 30%;
+}
+.address-languages {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.specialist-degree {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.specialist-degree mat-form-field {
+  width: 30%;
+}

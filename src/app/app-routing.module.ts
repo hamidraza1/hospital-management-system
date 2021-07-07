@@ -7,6 +7,7 @@ import { PatientAdminAuthGuard } from './components/auth/patient-adminAuth-guard
 import { ReceptionistAdminAuthGuard } from './components/auth/receptionist-adminAuth.guard';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { CreateDoctorsComponent } from './components/doctors/create-doctors/create-doctors.component';
+import { DoctorDetailsComponent } from './components/doctors/doctor-details/doctor-details.component';
 import { ListDoctorsComponent } from './components/doctors/list-doctors/list-doctors.component';
 import { PatientAuthGuard } from './components/patient-auth/patient-auth.guard';
 import { PatientLoginComponent } from './components/patient-auth/patient-login/patient-login.component';
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'list-doctors',
     component: ListDoctorsComponent,
+  },
+  {
+    path: 'doctor-details/:doctorId',
+    component: DoctorDetailsComponent,
   },
   {
     path: 'edit-doctors/:doctorId',

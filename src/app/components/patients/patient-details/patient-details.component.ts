@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs/internal/Subject';
 import { DoctorsService } from '../../doctors/doctors.service';
 import { PatientAuthService } from '../../patient-auth/patient-auth.service';
 import { PatientsService } from '../patients.service';
@@ -28,7 +29,9 @@ export class PatientDetailsComponent implements OnInit {
     this.patientsService
       .getPatientByEmail(this.patientEmail)
       .subscribe((response) => {
-        console.log(response.patient);
+        if (response.patient === null) {
+          return;
+        }
         this.patient = response.patient;
         this.patientId = response.patient?._id;
         this.assignedDoctorId = response.patient.assignedDoctor || null;
@@ -44,13 +47,12 @@ export class PatientDetailsComponent implements OnInit {
               });
             }
           });
-        /* console.log(this.assignedDoctorDetails); */
       });
   }
 
   onDeletePatient(patientId: string) {
     this.patientsService.deletePatient(patientId).subscribe(() => {
-      this.router.navigate(['/patient-details']);
+      window.location.reload();
     });
   }
 }

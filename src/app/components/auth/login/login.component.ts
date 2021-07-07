@@ -10,6 +10,7 @@ import { AuthService } from '../auth.service';
 export class LoginComponent implements OnInit {
   loading = false;
   roles = ['Admin', 'Doctor', 'Receptionist'];
+  responseStatus: any;
 
   constructor(public authService: AuthService) {}
 
@@ -24,5 +25,8 @@ export class LoginComponent implements OnInit {
       form.value.password,
       form.value.role
     );
+    this.authService
+      .getResponseStatusListener()
+      .subscribe((status) => (this.responseStatus = status));
   }
 }

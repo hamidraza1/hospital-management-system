@@ -8,6 +8,7 @@ import { PatientAuthService } from '../patient-auth.service';
   styleUrls: ['./patient-signup.component.css'],
 })
 export class PatientSignupComponent implements OnInit {
+  responseStatus: any;
   constructor(private patientAuthService: PatientAuthService) {}
 
   ngOnInit(): void {}
@@ -20,5 +21,8 @@ export class PatientSignupComponent implements OnInit {
       form.value.email,
       form.value.password
     );
+    this.patientAuthService
+      .getResponseStatusListener()
+      .subscribe((status) => (this.responseStatus = status));
   }
 }

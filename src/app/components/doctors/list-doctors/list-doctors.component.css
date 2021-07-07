@@ -6,10 +6,12 @@ mat-spinner {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  margin-top: 60px;
+  width: 100%;
 }
 .doctor {
   min-width: 350px;
+  width: 32%;
   border: 0.5px dotted rgb(221, 221, 221);
   border-radius: 5px;
   padding: 15px;

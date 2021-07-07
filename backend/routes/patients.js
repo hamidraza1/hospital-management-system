@@ -27,19 +27,28 @@ router.post("/", checkPatientAuth, (req, res, next) => {
     time: req.body.time,
     description: req.body.description,
   });
-  Patient.findOne({ date: req.body.date, time: req.body.time })
-    .then((result) => {
-      return result;
-    })
-    .then((result) => {
-      if (result == null) {
-        patient.save().then((createdPatient) => {
-          res.status(201).json({ message: "Appointment Booked Successfully" });
-        });
-      } else {
-        res.status(500).json({ message: "Appointment Already booked" });
-      }
-    });
+  Patient.findOne({ date: req.body.date, time: req.body.time }).then(
+    (result) => {
+      Patient.findOne({ email: req.body.email }).then((response) => {
+        if (response) {
+          console.log("a");
+          return res.status(401).json({
+            messgae: "Appointment has already been booked by this patient",
+          });
+        } else {
+          if (result == null) {
+            patient.save().then((createdPatient) => {
+              res
+                .status(201)
+                .json({ message: "Appointment Booked Successfully" });
+            });
+          } else {
+            res.status(500).json({ message: "Appointment Already booked" });
+          }
+        }
+      });
+    }
+  );
 });
 
 router.get("/", (req, res, next) => {
@@ -122,6 +131,7 @@ router.delete("/:id", checkAdminPatientAuth, (req, res, next) => {
   const patientId = req.params.id;
   console.log(patientId);
   Patient.deleteOne({ _id: patientId }).then((result) => {
+    console.log(result);
     if (result.n > 0) {
       res.status(200).json({ message: "doctor deleted successfully" });
     } else {

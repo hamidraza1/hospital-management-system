@@ -1,5 +1,8 @@
 <mat-card>
   <form (ngSubmit)="onPatientSignup(form)" #form="ngForm">
+    <p class="wrong-crediantilas" *ngIf="responseStatus == '500'">
+      *Username has already been taken
+    </p>
     <mat-form-field>
       <mat-label for="email">Email</mat-label>
       <input

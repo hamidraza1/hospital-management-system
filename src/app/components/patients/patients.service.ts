@@ -13,6 +13,7 @@ export class PatientsService {
     patientsCount: number;
   }>();
   unAvailableTimeSlots = new Subject<[]>();
+  isAppointmentAlreadyBookedForPatient = new Subject<any>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -65,11 +66,20 @@ export class PatientsService {
     this.http
       .post<{ message: string }>(
         'http://localhost:3000/api/patients',
-        patientData
+        patientData,
+        { observe: 'response' }
       )
-      .subscribe((responseData) => {
-        console.log(responseData);
-      });
+      .subscribe(
+        (responseData: any) => {
+          console.log(responseData.status);
+        },
+        (err) => {
+          console.log(err);
+          if (err.status === 401) {
+            this.isAppointmentAlreadyBookedForPatient.next(true);
+          }
+        }
+      );
   }
 
   getPatients(patientsPerPage: number, currentPage: number) {

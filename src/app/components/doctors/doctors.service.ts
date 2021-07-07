@@ -62,17 +62,55 @@ export class DoctorsService {
       email: string;
       speciality: string;
       imagePath: string;
+      experience: string;
+      phone: string;
+      address: string;
+      englishLevel: string;
+      deutschLevel: string;
+      arabicLevel: string;
+      description: string;
+      specialityDegree: string;
+      specialityDegreeCompleteion: string;
+      specialityDegreeInstitute: string;
       creator: string;
     }>('http://localhost:3000/api/doctors/' + doctorId);
   }
 
-  addDoctors(name: string, email: string, speciality: string, image: File) {
+  addDoctors(
+    name: string,
+    email: string,
+    speciality: string,
+    image: File,
+    experience: string,
+    phone: string,
+    address: string,
+    englishLevel: string,
+    deutschLevel: string,
+    arabicLevel: string,
+    description: string,
+    specialityDegree: string,
+    specialityDegreeCompleteion: string,
+    specialityDegreeInstitute: string
+  ) {
     //FormData is used to combine json and file data(blob)
     const doctorData = new FormData();
     doctorData.append('name', name);
     doctorData.append('email', email);
     doctorData.append('speciality', speciality);
     doctorData.append('image', image, name);
+    doctorData.append('experience', experience);
+    doctorData.append('phone', phone);
+    doctorData.append('address', address);
+    doctorData.append('englishLevel', englishLevel);
+    doctorData.append('deutschLevel', deutschLevel);
+    doctorData.append('arabicLevel', arabicLevel);
+    doctorData.append('description', description);
+    doctorData.append('specialityDegree', specialityDegree);
+    doctorData.append(
+      'specialityDegreeCompleteion',
+      specialityDegreeCompleteion
+    );
+    doctorData.append('specialityDegreeInstitute', specialityDegreeInstitute);
 
     this.http
       .post<{ message: string; doctor: doctor }>(
@@ -89,9 +127,19 @@ export class DoctorsService {
     name: string,
     email: string,
     speciality: string,
-    image: File | any
+    image: File | any,
+    experience: string,
+    phone: string,
+    address: string,
+    englishLevel: string,
+    deutschLevel: string,
+    arabicLevel: string,
+    description: string,
+    specialityDegree: string,
+    specialityDegreeCompleteion: string,
+    specialityDegreeInstitute: string
   ) {
-    let doctorData: doctor | FormData;
+    let doctorData: any | FormData;
     //if a new image is selected then image type will be file/object
     //if a image is not updated then image type will be url
     if (typeof image === 'object') {
@@ -101,6 +149,19 @@ export class DoctorsService {
       doctorData.append('email', email);
       doctorData.append('speciality', speciality);
       doctorData.append('image', image, name);
+      doctorData.append('experience', experience);
+      doctorData.append('phone', phone);
+      doctorData.append('address', address);
+      doctorData.append('englishLevel', englishLevel);
+      doctorData.append('deutschLevel', deutschLevel);
+      doctorData.append('arabicLevel', arabicLevel);
+      doctorData.append('description', description);
+      doctorData.append('specialityDegree', specialityDegree);
+      doctorData.append(
+        'specialityDegreeCompleteion',
+        specialityDegreeCompleteion
+      );
+      doctorData.append('specialityDegreeInstitute', specialityDegreeInstitute);
     } else {
       doctorData = {
         id: id,
@@ -109,6 +170,16 @@ export class DoctorsService {
         speciality: speciality,
         imagePath: image,
         creator: null,
+        experience: experience,
+        phone: phone,
+        address: address,
+        englishLevel: englishLevel,
+        deutschLevel: deutschLevel,
+        arabicLevel: arabicLevel,
+        description: description,
+        specialityDegree: specialityDegree,
+        specialityDegreeCompleteion: specialityDegreeCompleteion,
+        specialityDegreeInstitute: specialityDegreeInstitute,
       };
     }
 

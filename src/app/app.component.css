@@ -1,5 +1,12 @@
+.main-container {
+  width: 100%;
+}
+.main-container-inner {
+  max-width: 1200px;
+  margin: auto;
+}
 main {
-  width: 80%;
+  width: 100%;
   margin: auto;
   margin-top: 20px;
 }

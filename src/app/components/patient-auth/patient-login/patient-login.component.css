@@ -1,6 +1,10 @@
 mat-form-field {
   width: 100%;
 }
+.wrong-crediantilas {
+  font-size: 12px;
+  color: red;
+}
 .signup-suggestion {
   font-size: 12px;
   color: rgb(0, 171, 159);

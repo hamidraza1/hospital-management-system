@@ -11,6 +11,7 @@ import { AuthService } from '../auth.service';
 export class SignupComponent implements OnInit {
   role: string;
   loading = false;
+  responseStatus: any;
   constructor(
     public authService: AuthService,
     private permissionToSignUpService: PermissionToSignUpService
@@ -29,5 +30,8 @@ export class SignupComponent implements OnInit {
       form.value.password,
       this.role
     );
+    this.authService
+      .getResponseStatusListener()
+      .subscribe((status) => (this.responseStatus = status));
   }
 }

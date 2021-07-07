@@ -12,6 +12,7 @@ export class PatientAuthService {
   public isPatientAuthenticated = false;
   private authPatientStatusListener = new Subject<boolean>();
   private patientId: string;
+  private responseStatusListener = new Subject<any>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -30,15 +31,25 @@ export class PatientAuthService {
   getToken() {
     return this.token;
   }
+  getResponseStatusListener() {
+    return this.responseStatusListener.asObservable();
+  }
 
   createPatient(email: string, password: string) {
     const authData = { email: email, password: password };
     this.http
-      .post('http://localhost:3000/api/patientAuth/signup', authData)
-      .subscribe((response) => {
-        console.log(response);
-        /* this.router.navigate(['/patientAuth/login']); */
-      });
+      .post('http://localhost:3000/api/patientAuth/signup', authData, {
+        observe: 'response',
+      })
+      .subscribe(
+        (response) => {
+          console.log(response);
+          /* this.router.navigate(['/patientAuth/login']); */
+        },
+        (error) => {
+          this.responseStatusListener.next(error.status);
+        }
+      );
   }
 
   loginPatient(email: string, password: string) {
@@ -46,21 +57,29 @@ export class PatientAuthService {
     this.http
       .post<{ token: string; patientId: string; patient: any }>(
         'http://localhost:3000/api/patientAuth/login',
-        authData
-      )
-      .subscribe((response) => {
-        const token = response.token;
-        this.token = token;
-
-        if (response.token) {
-          this.isPatientAuthenticated = true;
-          this.authPatientStatusListener.next(true);
-          this.patientId = response.patientId;
-          this.patientEmail = response.patient.email;
-          this.saveAuthData(token, this.patientId, this.patientEmail);
-          this.router.navigate(['/patient-details']);
+        authData,
+        {
+          observe: 'response',
         }
-      });
+      )
+      .subscribe(
+        (response) => {
+          const token = response.body.token;
+          this.token = token;
+
+          if (response.body.token) {
+            this.isPatientAuthenticated = true;
+            this.authPatientStatusListener.next(true);
+            this.patientId = response.body.patientId;
+            this.patientEmail = response.body.patient.email;
+            this.saveAuthData(token, this.patientId, this.patientEmail);
+            this.router.navigate(['/patient-details']);
+          }
+        },
+        (error) => {
+          this.responseStatusListener.next(error.status);
+        }
+      );
   }
   private saveAuthData(token: string, patientId: string, patientEmail: string) {
     localStorage.setItem('patientToken', token);

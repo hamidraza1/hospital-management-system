@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './components/auth/auth.service';
 import { PatientAuthService } from './components/patient-auth/patient-auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',

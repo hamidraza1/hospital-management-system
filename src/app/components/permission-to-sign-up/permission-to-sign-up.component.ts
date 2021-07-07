@@ -10,6 +10,7 @@ import { PermissionToSignUpService } from './permission-to-sign-up.service';
   styleUrls: ['./permission-to-sign-up.component.css'],
 })
 export class PermissionToSignUpComponent implements OnInit {
+  responseStatus: any;
   constructor(
     private permissionToSignUpService: PermissionToSignUpService,
     private authService: AuthService,
@@ -29,5 +30,8 @@ export class PermissionToSignUpComponent implements OnInit {
       form.value.email,
       form.value.password
     );
+    this.permissionToSignUpService
+      .getResponseStatusListener()
+      .subscribe((status) => (this.responseStatus = status));
   }
 }

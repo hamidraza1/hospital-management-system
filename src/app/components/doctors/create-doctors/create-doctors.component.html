@@ -38,19 +38,7 @@
     <div class="image-preview" *ngIf="imagepreview !== '' && imagepreview">
       <img [src]="imagepreview" alt="form.value.title" />
     </div>
-    <mat-form-field>
-      <mat-label for="email">Email</mat-label>
-      <input
-        matInput
-        type="email"
-        id="email"
-        [ngModel]="doctor?.email"
-        name="email"
-        #email="ngModel"
-        required
-      />
-      <mat-error *ngIf="email.invalid">Email is required</mat-error>
-    </mat-form-field>
+
     <mat-form-field>
       <mat-label for="speciality">Speciality</mat-label>
       <input
@@ -64,7 +52,150 @@
       />
       <mat-error *ngIf="speciality.invalid">Speciality is required</mat-error>
     </mat-form-field>
-
+    <div class="email-experience-phone">
+      <mat-form-field>
+        <mat-label for="email">Email</mat-label>
+        <input
+          matInput
+          type="email"
+          id="email"
+          [ngModel]="doctor?.email"
+          name="email"
+          #email="ngModel"
+          required
+        />
+        <mat-error *ngIf="email.invalid">Email is required</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="experience">Experience in years</mat-label>
+        <input
+          matInput
+          type="number"
+          id="experience"
+          [ngModel]="doctor?.experience"
+          name="experience"
+          #experience="ngModel"
+          required
+        />
+        <mat-error *ngIf="experience.invalid">experience is required</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="phone">Phone</mat-label>
+        <input
+          matInput
+          type="text"
+          id="phone"
+          [ngModel]="doctor?.phone"
+          name="phone"
+          #phone="ngModel"
+          required
+        />
+        <mat-error *ngIf="phone.invalid">phone is required</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="address-languages">
+      <mat-form-field>
+        <mat-label for="address">Address</mat-label>
+        <input
+          matInput
+          type="text"
+          id="address"
+          [ngModel]="doctor?.address"
+          name="address"
+          #address="ngModel"
+          required
+        />
+        <mat-error *ngIf="address.invalid">address is required</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>English</mat-label>
+        <mat-select name="englishLevel" ngModel>
+          <mat-option *ngFor="let level of languageLevel" [value]="level">
+            {{ level }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Deutsch</mat-label>
+        <mat-select name="deutschLevel" ngModel>
+          <mat-option *ngFor="let level of languageLevel" [value]="level">
+            {{ level }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Arabic</mat-label>
+        <mat-select name="arabicLevel" ngModel>
+          <mat-option *ngFor="let level of languageLevel" [value]="level">
+            {{ level }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-form-field>
+      <mat-label for="description">Self Description</mat-label>
+      <input
+        matInput
+        type="text"
+        id="description"
+        [ngModel]="doctor?.description"
+        name="description"
+        #description="ngModel"
+        required
+      />
+      <mat-error *ngIf="description.invalid">description is required</mat-error>
+    </mat-form-field>
+    <div class="education">
+      <div class="specialist-degree">
+        <mat-form-field>
+          <mat-label for="specialityDegree">Degree of speciality</mat-label>
+          <input
+            matInput
+            type="text"
+            id="specialityDegree"
+            [ngModel]="doctor?.specialityDegree"
+            name="specialityDegree"
+            #specialityDegree="ngModel"
+            required
+          />
+          <mat-error *ngIf="specialityDegree.invalid"
+            >speciality-degree is required</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label for="specialityDegreeCompleteion"
+            >Year of completion</mat-label
+          >
+          <input
+            matInput
+            type="number"
+            id="specialityDegreeCompleteion"
+            [ngModel]="doctor?.specialityDegreeCompleteion"
+            name="specialityDegreeCompleteion"
+            #specialityDegreeCompleteion="ngModel"
+            required
+          />
+          <mat-error *ngIf="specialityDegreeCompleteion.invalid"
+            >speciality-degree-completeion is required</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label for="specialityDegreeInstitute">Institute</mat-label>
+          <input
+            matInput
+            type="text"
+            id="specialityDegreeInstitute"
+            [ngModel]="doctor?.specialityDegreeInstitute"
+            name="specialityDegreeInstitute"
+            #specialityDegreeInstitute="ngModel"
+            required
+          />
+          <mat-error *ngIf="specialityDegreeInstitute.invalid"
+            >specialityDegreeInstitute is required</mat-error
+          >
+        </mat-form-field>
+      </div>
+    </div>
     <button mat-raised-button color="primary" type="submit">Submit</button>
   </form>
 </mat-card>

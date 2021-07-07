@@ -1,6 +1,9 @@
 <mat-card>
   <mat-spinner *ngIf="loading"></mat-spinner>
   <form (ngSubmit)="onLogin(form)" #form="ngForm" *ngIf="!loading">
+    <p class="wrong-crediantilas" *ngIf="responseStatus == '401'">
+      *wrong username or password entered, or wrong Role Selected
+    </p>
     <mat-form-field>
       <mat-label for="email">Email</mat-label>
       <input

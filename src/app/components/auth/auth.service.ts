@@ -27,6 +27,8 @@ export class AuthService {
   private ReceptionistAuthStatusListener = new Subject<boolean>();
   private receptionistId: string;
 
+  private responseStatusListener = new Subject<any>();
+
   constructor(private http: HttpClient, private router: Router) {}
 
   getAuthStatusListener() {
@@ -70,6 +72,9 @@ export class AuthService {
   getRoleStatusListener() {
     return this.roleStatusListener.asObservable();
   }
+  getResponseStatusListener() {
+    return this.responseStatusListener.asObservable();
+  }
 
   createAdminDocReceptionist(email: string, password: string, role: string) {
     const authData = { email: email, password: password, role: role };
@@ -77,9 +82,14 @@ export class AuthService {
       .post('http://localhost:3000/api/admin/signup', authData, {
         observe: 'response',
       })
-      .subscribe((response: any) => {
-        this.router.navigate(['/login']);
-      });
+      .subscribe(
+        (response: any) => {
+          this.router.navigate(['/login']);
+        },
+        (error) => {
+          this.responseStatusListener.next(error.status);
+        }
+      );
   }
 
   loginAdmin(email: string, password: string, role: string) {
@@ -93,39 +103,51 @@ export class AuthService {
         doctorId: string;
         doctorEmail: string;
         receptionistId: string;
-      }>('http://localhost:3000/api/admin/login', authData)
-      .subscribe((response) => {
-        //this token is needed to be attached to each outgoing request(in the auth.interceptor) from doctorsService
-        const token = response.token;
-        this.token = token;
-        console.log(response);
-        if (token && response.loggedInAs == 'Admin') {
-          this.role = response.loggedInAs;
-          this.roleStatusListener.next('Admin');
-          this.isAuthenticated = true;
-          this.authStatusListener.next(true);
-          this.userId = response.userId;
-          this.saveAuthData(token, this.userId, this.role, null);
-          this.router.navigate(['/list-doctors']);
-        } else if (token && response.loggedInAs == 'Doctor') {
-          this.role = response.loggedInAs;
-          this.roleStatusListener.next('Doctor');
-          this.isDoctorAuthenticated = true;
-          this.DoctorAuthStatusListener.next(true);
-          this.doctorId = response.doctorId;
-          this.doctorEmail = response.doctorEmail;
-          this.saveAuthData(token, this.doctorId, this.role, this.doctorEmail);
-          this.router.navigate(['/list-doctors']);
-        } else if (token && response.loggedInAs == 'Receptionist') {
-          this.role = response.loggedInAs;
-          this.roleStatusListener.next('Receptionist');
-          this.isReceptionistAuthenticated = true;
-          this.ReceptionistAuthStatusListener.next(true);
-          this.receptionistId = response.receptionistId;
-          this.saveAuthData(token, this.receptionistId, this.role, null);
-          this.router.navigate(['/list-patients']);
+      }>('http://localhost:3000/api/admin/login', authData, {
+        observe: 'response',
+      })
+      .subscribe(
+        (response) => {
+          //this token is needed to be attached to each outgoing request(in the auth.interceptor) from doctorsService
+          const token = response.body.token;
+          this.token = token;
+          console.log(response);
+          if (token && response.body.loggedInAs == 'Admin') {
+            this.role = response.body.loggedInAs;
+            this.roleStatusListener.next('Admin');
+            this.isAuthenticated = true;
+            this.authStatusListener.next(true);
+            this.userId = response.body.userId;
+            this.saveAuthData(token, this.userId, this.role, null);
+            this.router.navigate(['/list-doctors']);
+          } else if (token && response.body.loggedInAs == 'Doctor') {
+            this.role = response.body.loggedInAs;
+            this.roleStatusListener.next('Doctor');
+            this.isDoctorAuthenticated = true;
+            this.DoctorAuthStatusListener.next(true);
+            this.doctorId = response.body.doctorId;
+            this.doctorEmail = response.body.doctorEmail;
+            this.saveAuthData(
+              token,
+              this.doctorId,
+              this.role,
+              this.doctorEmail
+            );
+            this.router.navigate(['/list-doctors']);
+          } else if (token && response.body.loggedInAs == 'Receptionist') {
+            this.role = response.body.loggedInAs;
+            this.roleStatusListener.next('Receptionist');
+            this.isReceptionistAuthenticated = true;
+            this.ReceptionistAuthStatusListener.next(true);
+            this.receptionistId = response.body.receptionistId;
+            this.saveAuthData(token, this.receptionistId, this.role, null);
+            this.router.navigate(['/list-patients']);
+          }
+        },
+        (error) => {
+          this.responseStatusListener.next(error.status);
         }
-      });
+      );
   }
 
   getToken() {

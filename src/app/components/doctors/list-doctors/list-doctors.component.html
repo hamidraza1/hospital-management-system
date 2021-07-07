@@ -1,6 +1,10 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
 <div class="doctors-container" *ngIf="doctors.length > 0 && !loading">
-  <div class="doctor" *ngFor="let doctor of doctors">
+  <div
+    class="doctor"
+    *ngFor="let doctor of doctors"
+    (click)="doctorDetails(doctor)"
+  >
     <div class="doctor-speciality">
       {{ doctor.speciality }}
       <div
