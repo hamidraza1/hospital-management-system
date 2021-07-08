@@ -1,12 +1,9 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
 <div class="doctors-container" *ngIf="doctors.length > 0 && !loading">
-  <div
-    class="doctor"
-    *ngFor="let doctor of doctors"
-    (click)="doctorDetails(doctor)"
-  >
+  <div class="doctor" *ngFor="let doctor of doctors">
     <div class="doctor-speciality">
-      {{ doctor.speciality }}
+      <span>{{ doctor.speciality }}</span>
+
       <div
         class="dropdown"
         *ngIf="
@@ -46,7 +43,7 @@
       </div>
     </div>
     <div class="under-line"></div>
-    <p class="doctor-name">{{ doctor.name }}</p>
+    <p class="doctor-name" (click)="doctorDetails(doctor)">{{ doctor.name }}</p>
     <div class="doctor-image">
       <img [src]="doctor.imagePath" [alt]="doctor.title" />
     </div>

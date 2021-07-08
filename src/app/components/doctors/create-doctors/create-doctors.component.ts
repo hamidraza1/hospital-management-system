@@ -76,6 +76,9 @@ export class CreateDoctorsComponent implements OnInit {
       return;
     }
     console.log(form);
+    console.log(form.value.name);
+    console.log(form.value.name);
+    console.log(form.value.name);
     this.loading = true;
 
     if (this.mode === 'create') {
@@ -87,9 +90,9 @@ export class CreateDoctorsComponent implements OnInit {
         form.value.experience,
         form.value.phone,
         form.value.address,
-        form.value.englishLevel,
-        form.value.deutschLevel,
-        form.value.arabicLevel,
+        +form.value.englishLevel,
+        +form.value.deutschLevel,
+        +form.value.arabicLevel,
         form.value.description,
         form.value.specialityDegree,
         form.value.specialityDegreeCompleteion,
@@ -101,13 +104,13 @@ export class CreateDoctorsComponent implements OnInit {
         form.value.name,
         form.value.email,
         form.value.speciality,
-        this.doctor.imagePath,
+        this.selectedFile ? this.selectedFile : this.doctor.imagePath,
         form.value.experience,
         form.value.phone,
         form.value.address,
-        form.value.englishLevel,
-        form.value.englishLevel,
-        form.value.englishLevel,
+        +form.value.englishLevel,
+        +form.value.deutschLevel,
+        +form.value.arabicLevel,
         form.value.description,
         form.value.specialityDegree,
         form.value.specialityDegreeCompleteion,

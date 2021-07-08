@@ -1,1 +1,58 @@
-<p>doctor-details works!</p>
+<div class="detail-container">
+  <div class="image-container">
+    <img class="imageDP" src="{{ doctor?.imagePath }}" alt="" />
+  </div>
+  <div class="description-container-inner">
+    <div class="description">{{ doctor?.description }}</div>
+    <div class="personal-info-container">
+      <div class="personal-info">
+        <div class="title">Persoanl Information</div>
+        <div class="experience">
+          <span>Practicing:</span>{{ doctor?.experience }} years
+        </div>
+        <div class="email"><span>E-mail:</span>{{ doctor?.email }}</div>
+        <div class="address"><span>Address:</span>{{ doctor?.address }}</div>
+        <div class="phone"><span>Phone:</span>{{ doctor?.phone }}</div>
+      </div>
+      <div class="languages">
+        <div class="title">Languages</div>
+        <div class="deutsch-language">
+          <span>Deutsch:</span>
+          <div
+            class="cubes"
+            *ngFor="let i of [].constructor(doctor?.deutschLevel)"
+          ></div>
+        </div>
+        <div class="english-language">
+          <span>English:</span>
+          <div
+            class="cubes"
+            *ngFor="let i of [].constructor(doctor?.englishLevel)"
+          ></div>
+        </div>
+        <div class="arabic-language">
+          <span>Arabic:</span>
+          <div
+            class="cubes"
+            *ngFor="let i of [].constructor(doctor?.arabicLevel)"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="education">
+    <div class="central-line"></div>
+    <div class="diagram-container">
+      <i class="fas fa-university fa-6x uni-logo"></i>
+      <span
+        ><div class="specialityDegreeCompleteion">
+          {{ doctor?.specialityDegreeCompleteion }}
+        </div>
+        <div class="specialityDegree">{{ doctor?.specialityDegree }}</div>
+        <div class="specialityDegreeInstitute">
+          {{ doctor?.specialityDegreeInstitute }}
+        </div></span
+      >
+    </div>
+  </div>
+</div>

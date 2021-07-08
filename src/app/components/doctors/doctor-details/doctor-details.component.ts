@@ -23,6 +23,12 @@ export class DoctorDetailsComponent implements OnInit {
         this.loading = true;
         this.doctorsService.getDoctor(this.doctorId).subscribe((doctor) => {
           //
+          const nameSpeciality = {
+            name: doctor.name,
+            speciality: doctor.speciality,
+          };
+          this.doctorsService.doctorName.next(nameSpeciality);
+          console.log(doctor);
           this.loading = false;
           this.doctor = {
             id: doctor._id,
@@ -45,5 +51,8 @@ export class DoctorDetailsComponent implements OnInit {
         });
       }
     });
+  }
+  ngOnDestroy(): void {
+    this.doctorsService.doctorName.next(false);
   }
 }

@@ -20,7 +20,6 @@ mat-spinner {
 }
 .doctor:hover {
   border: 1px solid rgb(64, 64, 64);
-  cursor: pointer;
 }
 .doctor-speciality {
   color: rgb(78, 72, 72);
@@ -28,6 +27,9 @@ mat-spinner {
   justify-content: space-between;
   font-size: 24px;
   padding: 10px 5px;
+}
+.doctor-speciality span {
+  margin: auto;
 }
 
 .doctor-image {
@@ -40,6 +42,7 @@ mat-spinner {
   height: 100px;
   width: 100px;
   margin: auto;
+  object-fit: cover;
 }
 .under-line {
   border-bottom: 0.5px solid rgb(70, 168, 158);
@@ -51,6 +54,11 @@ mat-spinner {
   font-weight: 600;
   font-size: 18px;
   text-align: center;
+  transition: transform 0.5s;
+}
+.doctor-name:hover {
+  transform: scale(1.2);
+  cursor: pointer;
 }
 .doctor-email {
   font-size: 12px;

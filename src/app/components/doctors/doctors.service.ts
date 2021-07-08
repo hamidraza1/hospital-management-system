@@ -14,6 +14,7 @@ export class DoctorsService {
     doctors;
     doctorCount: number;
   }>();
+  public doctorName = new Subject<any>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -84,9 +85,9 @@ export class DoctorsService {
     experience: string,
     phone: string,
     address: string,
-    englishLevel: string,
-    deutschLevel: string,
-    arabicLevel: string,
+    englishLevel: number,
+    deutschLevel: number,
+    arabicLevel: number,
     description: string,
     specialityDegree: string,
     specialityDegreeCompleteion: string,
@@ -131,9 +132,9 @@ export class DoctorsService {
     experience: string,
     phone: string,
     address: string,
-    englishLevel: string,
-    deutschLevel: string,
-    arabicLevel: string,
+    englishLevel: number,
+    deutschLevel: number,
+    arabicLevel: number,
     description: string,
     specialityDegree: string,
     specialityDegreeCompleteion: string,

@@ -111,7 +111,6 @@ export class ListDoctorsComponent implements OnInit, OnDestroy {
   }
 
   doctorDetails(doctor) {
-    console.log(doctor);
     this.router.navigate([`/doctor-details/${doctor.id}`]);
   }
 

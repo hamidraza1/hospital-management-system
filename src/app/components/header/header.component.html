@@ -80,7 +80,10 @@
     class="image"
   />
   <div class="image-text-container">
-    <div class="image-text-container-inner">
+    <div
+      class="image-text-container-inner"
+      *ngIf="!docNameSpeciality; else DoctorName"
+    >
       <div class="image-text-contact">
         You need help? <br />
         <span class="number">+49 (157) 824 73 557</span>
@@ -93,5 +96,11 @@
         We are always there, Anywhere you need us.
       </div>
     </div>
+    <ng-template #DoctorName>
+      <span class="name"
+        >{{ docNameSpeciality.name }}
+        <span>{{ docNameSpeciality.speciality }}</span></span
+      >
+    </ng-template>
   </div>
 </div>

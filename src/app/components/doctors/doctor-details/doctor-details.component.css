@@ -1,0 +1,125 @@
+.detail-container {
+}
+.image-container {
+  height: 200px;
+  width: 200px;
+  margin-top: -50px;
+  margin-left: 40%;
+  padding: 6px;
+  background: white;
+  box-shadow: 0 1px 7px rgb(0 0 0 / 20%);
+}
+.imageDP {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.description-container-inner {
+  margin-top: 50px;
+}
+.description {
+  text-align: center;
+  font-size: 36px;
+  color: rgb(72, 72, 72);
+}
+.personal-info-container {
+  display: flex;
+  margin-top: 70px;
+}
+.personal-info-container span {
+  font-size: 20px;
+  margin-right: 50px;
+}
+.personal-info {
+  width: 50%;
+}
+.personal-info .title {
+  font-size: 26px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 40px 0;
+  color: rgb(53, 61, 87);
+}
+.experience,
+.email,
+.address,
+.phone {
+  margin: 15px 0;
+  color: rgb(123, 129, 133);
+}
+.experience span,
+.email span,
+.address span,
+.phone span {
+  color: black;
+}
+
+.languages {
+  width: 50%;
+}
+.languages .title {
+  font-size: 26px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 40px 0;
+  color: rgb(53, 61, 87);
+}
+.cubes {
+  width: 15px;
+  height: 15px;
+  background-color: rgb(3, 125, 113);
+  margin-right: 10px;
+  display: inline-block;
+}
+.deutsch-language,
+.english-language,
+.arabic-language {
+  margin-bottom: 15px;
+}
+.deutsch-language span {
+  margin-right: 20px !important;
+}
+.english-language span {
+  margin-right: 28px !important;
+}
+.arabic-language span {
+  margin-right: 35px !important;
+}
+
+.education {
+  margin-top: 70px;
+  position: relative;
+}
+.central-line {
+  width: 10px;
+  height: 200px;
+  background-color: rgb(240, 240, 240);
+  margin: auto;
+}
+.diagram-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+}
+.uni-logo {
+  border-right: turquoise 1px solid;
+  border-bottom: turquoise 1px solid;
+  padding: 10px;
+}
+.diagram-container span {
+  margin-left: 25px;
+}
+.specialityDegreeCompleteion {
+  color: rgb(57, 127, 255);
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.specialityDegree {
+  color: rgb(251, 125, 89);
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+.specialityDegreeInstitute {
+  color: rgb(3, 125, 113);
+  font-size: 24px;
+  margin-bottom: 8px;
+}

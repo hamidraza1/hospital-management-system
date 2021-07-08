@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { DoctorsService } from '../doctors/doctors.service';
 import { PatientAuthService } from '../patient-auth/patient-auth.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   patientIsAuthenticated = false;
   receptionistIsAuthenticated = false;
   role: string;
+  docNameSpeciality;
   private authListenerSub: Subscription;
   private docAuthListenerSub: Subscription;
   private patientAuthListenerSub: Subscription;
@@ -23,6 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private patientAuthService: PatientAuthService,
+    private doctorsService: DoctorsService,
     private router: Router
   ) {}
 
@@ -66,6 +69,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
           (this.receptionistIsAuthenticated = isRecptionistAuthenticated)
       );
     this.receptionistIsAuthenticated = this.authService.getIsRecptionistAuth();
+    /*------------------- doctor Name emission -------------------*/
+    this.doctorsService.doctorName.subscribe(
+      (docName) => (this.docNameSpeciality = docName)
+    );
   }
 
   onLogout() {
